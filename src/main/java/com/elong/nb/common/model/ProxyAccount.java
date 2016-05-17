@@ -305,5 +305,9 @@ public class ProxyAccount {
 	public void setMaxDays(Integer maxDays) {
 		MaxDays = maxDays;
 	}
+	
+	public boolean isCtripOrQunar(){
+        return OrderFrom == 5931 || OrderFrom == 300573;
+    }
     
 }
