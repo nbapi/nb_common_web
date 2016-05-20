@@ -7,7 +7,7 @@ import java.util.Properties;
 
 public class CommonsUtil {
 	
-	public static final Properties CONFIG_PROVIDAR = loadProperties("config/config.properties");
+	public static final Properties CONFIG_PROVIDAR = loadProperties("conf/custom/env/config.properties");
 	
     public static Properties loadProperties(String fileName) {
         if(fileName == null || fileName.trim().length() == 0){
