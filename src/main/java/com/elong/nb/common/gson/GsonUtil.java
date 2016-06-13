@@ -47,6 +47,7 @@ public class GsonUtil {
 	public static String toJson(RestResponse resp, double version) {
 		// 增加版本对应的输出设置
 		GsonBuilder gsonBuilder = new GsonBuilder();
+		gsonBuilder.registerTypeAdapter(Date.class, new DateTypeAdapter());
 		gsonBuilder.setVersion(version);
 		String json = gsonBuilder.create().toJson(resp, RestResponse.class);
 		return json;
