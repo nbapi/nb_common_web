@@ -69,7 +69,8 @@ public final class DateTypeAdapter extends TypeAdapter<Date> {
 			// 不支持的：2016-02-23+00:00:00
 			// 2016\/01\/12其实传到这里是yyyy/MM/dd，但只能匹配一个**/**/**
 			jsonDate = DateUtils.parseDate(json, new String[] {
-					"yyyy-MM-dd'T'HH:mm:ss'+08:00'", "yyyy-MM-dd'T'HH:mm:ss",
+					"yyyy-MM-dd'T'HH:mm:ss'+08:00'",
+					"yyyy-MM-dd'T'HH:mm:ss.SSS'+08:00'", "yyyy-MM-dd'T'HH:mm:ss",
 					"yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd'+'HH:mm:ss",
 					"yyyy-MM-dd HH:mm", "yyyy-MM-dd", "MM/dd/yyyy" });
 		} catch (ParseException e) {
