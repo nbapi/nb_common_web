@@ -2,6 +2,8 @@ package com.elong.nb.common.biglog;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -354,6 +356,9 @@ public class BigLog {
 		this.userLogType = (null == this.userLogType ? "platform_log_default"
 				: this.userLogType);
 		StringBuilder builder = new StringBuilder();
+		builder.append("1.0").append(TAB);
+		SimpleDateFormat sFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		builder.append(sFormat.format(new Date())).append(TAB);
 		builder.append(replaceTabAndEnter(this.traceId)).append(TAB);
 		builder.append(replaceTabAndEnter(this.span)).append(TAB);
 		builder.append(replaceTabAndEnter(businessLine)).append(TAB);
