@@ -18,10 +18,12 @@ package com.elong.nb.common.gson;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -39,6 +41,10 @@ import com.google.gson.stream.JsonWriter;
  * synchronize its read and write methods.
  */
 public final class DateTypeAdapter extends TypeAdapter<Date> {
+
+	private static Logger LocalMsg = LogManager
+			.getLogger(DateTypeAdapter.class);
+
 	public static final TypeAdapterFactory FACTORY = new TypeAdapterFactory() {
 		@SuppressWarnings("unchecked")
 		// we use a runtime check to make sure the 'T's equal
@@ -70,14 +76,15 @@ public final class DateTypeAdapter extends TypeAdapter<Date> {
 			// 2016\/01\/12其实传到这里是yyyy/MM/dd，但只能匹配一个**/**/**
 			jsonDate = DateUtils.parseDate(json, new String[] {
 					"yyyy-MM-dd'T'HH:mm:ss'+08:00'",
-					"yyyy-MM-dd'T'HH:mm:ss.SSS'+08:00'", "yyyy-MM-dd'T'HH:mm:ss",
-					"yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd'+'HH:mm:ss",
-					"yyyy-MM-dd HH:mm", "yyyy-MM-dd", "MM/dd/yyyy" });
+					"yyyy-MM-dd'T'HH:mm:ss.SSS'+08:00'",
+					"yyyy-MM-dd'T'HH:mm:ss", "yyyy-MM-dd HH:mm:ss",
+					"yyyy-MM-dd'+'HH:mm:ss", "yyyy-MM-dd HH:mm", "yyyy-MM-dd",
+					"MM/dd/yyyy" });
 		} catch (ParseException e) {
+			LocalMsg.error(json + " This msg json can't be parse!!!");
 			throw new JsonSyntaxException(json, e);
 		}
 		return jsonDate;
-		// return DateUtils.truncate(jsonDate, Calendar.DATE);
 	}
 
 	/**
@@ -93,7 +100,10 @@ public final class DateTypeAdapter extends TypeAdapter<Date> {
 		// elongapi的json日期返回格式
 		// System.out.println(DateFormatUtils.format(value,
 		// "yyyy-MM-dd'T123'HH:mm:ss'+08:00'"));
-		out.value(DateFormatUtils
-				.format(value, "yyyy-MM-dd'T'HH:mm:ss'+08:00'"));
+		// out.value(DateFormatUtils
+		// .format(value, "yyyy-MM-dd'T'HH:mm:ss'+08:00'"));
+		SimpleDateFormat sFormat = new SimpleDateFormat(
+				"yyyy-MM-dd'T'HH:mm:ss'+08:00'");
+		out.value(sFormat.format(value));
 	}
 }
