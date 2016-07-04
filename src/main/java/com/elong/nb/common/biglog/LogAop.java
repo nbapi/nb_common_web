@@ -7,6 +7,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.http.ResponseEntity;
@@ -57,6 +58,28 @@ public class LogAop {
 		log.setElapsedTime(useTime);
 		ResponseEntity<byte[]> resp = (ResponseEntity<byte[]>) returnValue;
 		log.setResponseBody(new String(resp.getBody()));
+		log.setUserLogType("111");
+		logger.info(log.toString());
+	}
+	
+	@AfterThrowing(pointcut = "execution(public * com.elong.nb.controller..*..*(..))", throwing = "throwing")
+	public void handlerLogThrowing(JoinPoint point, Object throwing) {
+		RequestAttributes request = RequestContextHolder.getRequestAttributes();
+		String handlerMethodName = ClassUtils.getShortClassName(point.getSignature().getDeclaringTypeName()) + "."
+				+ point.getSignature().getName();
+		long start = (Long) request.getAttribute(Constants.ELONG_REQUEST_STARTTIME, ServletRequestAttributes.SCOPE_REQUEST);
+		String useTime = String.valueOf(System.currentTimeMillis() - start);
+
+		BigLog log = new BigLog();
+		log.setAppName("controller");
+		log.setTraceId((String) (request.getAttribute(Constants.ELONG_REQUEST_TRACEID, ServletRequestAttributes.SCOPE_REQUEST)));
+		log.setSpan("1.1");
+		log.setServiceName(handlerMethodName);
+		log.setElapsedTime(useTime);
+		Throwable t = (Throwable) throwing;
+		log.setResponseBody(t.getMessage());
+		log.setException(t);
+		log.setBusinessErrorCode("1");
 		log.setUserLogType("111");
 		logger.info(log.toString());
 	}
