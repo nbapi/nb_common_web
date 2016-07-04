@@ -77,6 +77,7 @@ public final class DateTypeAdapter extends TypeAdapter<Date> {
 			jsonDate = DateUtils.parseDate(json, new String[] {
 					"yyyy-MM-dd'T'HH:mm:ss'+08:00'",
 					"yyyy-MM-dd'T'HH:mm:ss.SSS'+08:00'",
+					"yyyy-MM-dd'T'HH:mm:ss.fffffffff",
 					"yyyy-MM-dd'T'HH:mm:ss", "yyyy-MM-dd HH:mm:ss",
 					"yyyy-MM-dd'+'HH:mm:ss", "yyyy-MM-dd HH:mm", "yyyy-MM-dd",
 					"MM/dd/yyyy" });
