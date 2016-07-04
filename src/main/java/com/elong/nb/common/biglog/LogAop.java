@@ -56,6 +56,7 @@ public class LogAop {
 		log.setSpan("1.1");
 		log.setServiceName(handlerMethodName);
 		log.setElapsedTime(useTime);
+		log.setRequestBody((String)(request.getAttribute(Constants.ELONG_REQUEST_JSON, ServletRequestAttributes.SCOPE_REQUEST)));
 		ResponseEntity<byte[]> resp = (ResponseEntity<byte[]>) returnValue;
 		log.setResponseBody(new String(resp.getBody()));
 		log.setUserLogType("111");
@@ -76,6 +77,7 @@ public class LogAop {
 		log.setSpan("1.1");
 		log.setServiceName(handlerMethodName);
 		log.setElapsedTime(useTime);
+		log.setRequestBody((String)(request.getAttribute(Constants.ELONG_REQUEST_JSON, ServletRequestAttributes.SCOPE_REQUEST)));
 		Throwable t = (Throwable) throwing;
 		log.setResponseBody(t.getMessage());
 		log.setException(t);

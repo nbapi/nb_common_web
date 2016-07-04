@@ -8,7 +8,11 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.IOUtils;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.elong.nb.common.biglog.Constants;
 import com.elong.nb.common.model.RestRequest;
 import com.elong.nb.common.model.RestResponse;
 import com.google.gson.GsonBuilder;
@@ -18,6 +22,10 @@ public class GsonUtil {
 	@SuppressWarnings("rawtypes")
 	public static <T> RestRequest<T> toReq(HttpServletRequest request, Class<T> clazz) throws IOException {
 		String json = IOUtils.toString(request.getInputStream(), "utf-8");
+		
+		RequestAttributes ra = RequestContextHolder.getRequestAttributes();
+		ra.setAttribute(Constants.ELONG_REQUEST_JSON, json == null ? "" : json, ServletRequestAttributes.SCOPE_REQUEST);
+		
 		GsonBuilder gsonBuilder = new GsonBuilder();
 		// 添加枚举适配器
 		gsonBuilder.registerTypeHierarchyAdapter(Enum.class, new EnumTypeAdapter());
