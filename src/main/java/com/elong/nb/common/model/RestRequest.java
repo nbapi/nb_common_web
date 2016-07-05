@@ -1,5 +1,7 @@
 package com.elong.nb.common.model;
 
+import com.google.gson.annotations.SerializedName;
+
 
 /**
  * {"Version":1.11,"Local":"zh_CN","Request":{"ArrivalDate":
@@ -29,7 +31,10 @@ package com.elong.nb.common.model;
  * @param <T>
  */
 public class RestRequest<T>{
+	
+	@SerializedName(alternate="version", value = "Version")
 	private Double Version;
+	
 	private EnumLocal Local = EnumLocal.zh_CN;
 	private T Request;
 	private ProxyAccount ProxyInfo;

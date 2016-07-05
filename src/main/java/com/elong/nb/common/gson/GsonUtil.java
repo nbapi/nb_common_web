@@ -69,7 +69,7 @@ public class GsonUtil {
 		// 增加版本对应的输出设置
 		GsonBuilder gsonBuilder = new GsonBuilder();
 		gsonBuilder.registerTypeAdapter(Date.class, new DateTypeAdapter());
-		gsonBuilder.setVersion(version);
+		if (version > 0) gsonBuilder.setVersion(version);
 		String json = gsonBuilder.create().toJson(resp, RestResponse.class);
 		return json;
 	}
