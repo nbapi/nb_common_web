@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Date;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,20 +18,31 @@ import com.elong.nb.common.biglog.Constants;
 import com.elong.nb.common.model.RestRequest;
 import com.elong.nb.common.model.RestResponse;
 import com.google.gson.GsonBuilder;
+import com.google.gson.TypeAdapter;
 
 public class GsonUtil {
 
 	@SuppressWarnings("rawtypes")
-	public static <T> RestRequest<T> toReq(HttpServletRequest request, Class<T> clazz) throws IOException {
+	public static <T> RestRequest<T> toReq(HttpServletRequest request,
+			Class<T> clazz, Map<Class, TypeAdapter> adapters)
+			throws IOException {
 		String json = IOUtils.toString(request.getInputStream(), "utf-8");
-		
+
 		RequestAttributes ra = RequestContextHolder.getRequestAttributes();
-		ra.setAttribute(Constants.ELONG_REQUEST_JSON, json == null ? "" : json, ServletRequestAttributes.SCOPE_REQUEST);
-		
+		ra.setAttribute(Constants.ELONG_REQUEST_JSON, json == null ? "" : json,
+				ServletRequestAttributes.SCOPE_REQUEST);
+
 		GsonBuilder gsonBuilder = new GsonBuilder();
 		// 添加枚举适配器
-		gsonBuilder.registerTypeHierarchyAdapter(Enum.class, new EnumTypeAdapter());
+		gsonBuilder.registerTypeHierarchyAdapter(Enum.class,
+				new EnumTypeAdapter());
 		gsonBuilder.registerTypeAdapter(Date.class, new DateTypeAdapter());
+		if (adapters != null && !adapters.isEmpty()) {
+			for (Entry<Class, TypeAdapter> e : adapters.entrySet()) {
+				gsonBuilder.registerTypeAdapter(e.getKey(), e.getValue());
+			}
+		}
+
 		Type objectType = type(RestRequest.class, clazz);
 		RestRequest req = gsonBuilder.create().fromJson(json, objectType);
 		return req;
