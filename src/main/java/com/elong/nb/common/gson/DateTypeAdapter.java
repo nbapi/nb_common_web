@@ -71,15 +71,15 @@ public final class DateTypeAdapter extends TypeAdapter<Date> {
 	 */
 	private synchronized Date deserializeToDate(String json) {
 		Date jsonDate;
+		if (isWithMicSecends(json)) json = json.substring(0, 19);
 		try {
-			// 不支持的：2016-02-23+00:00:00
-			// 2016\/01\/12其实传到这里是yyyy/MM/dd，但只能匹配一个**/**/**
 			jsonDate = DateUtils.parseDate(json, new String[] {
 					"yyyy-MM-dd'T'HH:mm:ss'+08:00'",
 					"yyyy-MM-dd'T'HH:mm:ss.SSS'+08:00'",
 					"yyyy-MM-dd'T'HH:mm:ss", "yyyy-MM-dd HH:mm:ss",
 					"yyyy-MM-dd'+'HH:mm:ss", "yyyy-MM-dd'T'HH:mm:ss.SSS",
-					"yyyy-MM-dd HH:mm", "yyyy-MM-dd", "yyyy.MM.dd", "MM/dd/yyyy" });
+					"yyyy-MM-dd HH:mm", "yyyy-MM-dd", "yyyy.MM.dd",
+					"MM/dd/yyyy" });
 		} catch (ParseException e) {
 			LocalMsg.error(json + " This msg json can't be parse!!!");
 			throw new JsonSyntaxException(json, e);
@@ -87,6 +87,28 @@ public final class DateTypeAdapter extends TypeAdapter<Date> {
 		return jsonDate;
 	}
 
+	/**
+	 * 是否是带微妙的形式   2016-07-19T16:05:00.2024835 
+	 * @param date
+	 * @return
+	 */
+	private static boolean isWithMicSecends(String date){
+		if (date.length() == 27){
+			if (date.charAt(19) == '.'){
+				boolean isAllDig = true;
+				for (int i=20; i<27; i++){
+					char c = date.charAt(i);
+					if (c > '9' || c < '0') {
+						isAllDig = false;
+						break;
+					}
+				}
+				if (isAllDig) return true;
+			}
+		}
+		return false;
+	}
+	
 	/**
 	 * json输出的日期字符串
 	 */
@@ -97,11 +119,6 @@ public final class DateTypeAdapter extends TypeAdapter<Date> {
 			out.nullValue();
 			return;
 		}
-		// elongapi的json日期返回格式
-		// System.out.println(DateFormatUtils.format(value,
-		// "yyyy-MM-dd'T123'HH:mm:ss'+08:00'"));
-		// out.value(DateFormatUtils
-		// .format(value, "yyyy-MM-dd'T'HH:mm:ss'+08:00'"));
 		SimpleDateFormat sFormat = new SimpleDateFormat(
 				"yyyy-MM-dd'T'HH:mm:ss'+08:00'");
 		out.value(sFormat.format(value));
