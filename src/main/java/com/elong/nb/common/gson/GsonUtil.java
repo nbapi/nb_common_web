@@ -45,6 +45,11 @@ public class GsonUtil {
 
 		Type objectType = type(RestRequest.class, clazz);
 		RestRequest req = gsonBuilder.create().fromJson(json, objectType);
+
+		if (req != null && req.getGuid() != null && req.getGuid().length() > 0)
+			ra.setAttribute(Constants.ELONG_REQUEST_REQUESTGUID, req.getGuid(),
+					ServletRequestAttributes.SCOPE_REQUEST);
+
 		return req;
 	}
 
@@ -69,7 +74,8 @@ public class GsonUtil {
 		// 增加版本对应的输出设置
 		GsonBuilder gsonBuilder = new GsonBuilder();
 		gsonBuilder.registerTypeAdapter(Date.class, new DateTypeAdapter());
-		if (version > 0) gsonBuilder.setVersion(version);
+		if (version > 0)
+			gsonBuilder.setVersion(version);
 		String json = gsonBuilder.create().toJson(resp, RestResponse.class);
 		return json;
 	}

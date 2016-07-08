@@ -59,7 +59,8 @@ public class LogAop {
 		log.setRequestBody((String)(request.getAttribute(Constants.ELONG_REQUEST_JSON, ServletRequestAttributes.SCOPE_REQUEST)));
 		ResponseEntity<byte[]> resp = (ResponseEntity<byte[]>) returnValue;
 		log.setResponseBody(new String(resp.getBody()));
-		log.setUserLogType("controller_info");
+		Object guid = request.getAttribute(Constants.ELONG_REQUEST_REQUESTGUID, ServletRequestAttributes.SCOPE_REQUEST);
+		if (guid != null) log.setUserLogType((String)guid);
 		logger.info(log.toString());
 	}
 	
@@ -82,7 +83,8 @@ public class LogAop {
 		log.setResponseBody(t.getMessage());
 		log.setException(t);
 		log.setBusinessErrorCode("1");
-		log.setUserLogType("controller_error");
+		Object guid = request.getAttribute(Constants.ELONG_REQUEST_REQUESTGUID, ServletRequestAttributes.SCOPE_REQUEST);
+		if (guid != null) log.setUserLogType((String)guid);
 		logger.info(log.toString());
 	}
 

@@ -4,7 +4,7 @@ public class Constants {
 	
 	public static final String ELONG_REQUEST_TRACEID = "elongTraceId";
 	
-	public static final String ELONG_REQUEST_USERTRACEID = "elongUserTraceId";
+	public static final String ELONG_REQUEST_REQUESTGUID = "elongRequestGuid";
 	
 	public static final String ELONG_REQUEST_STARTTIME = "elongRequestStartTime";
 	
