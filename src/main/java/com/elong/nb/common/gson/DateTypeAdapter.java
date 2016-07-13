@@ -71,6 +71,7 @@ public final class DateTypeAdapter extends TypeAdapter<Date> {
 	 */
 	private synchronized Date deserializeToDate(String json) {
 		Date jsonDate;
+		json = json.trim();
 		if (isWithMicSecends(json)) json = json.substring(0, 19);
 		try {
 			jsonDate = DateUtils.parseDate(json, new String[] {
