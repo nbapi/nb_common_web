@@ -19,7 +19,10 @@ package com.elong.nb.common.model;
 		I(512),
 		J(1024),
 		K(2048),
-		L(4096);
+		L(4096),
+		M(8192),
+		N(16384),
+		O(32768);
 
 		private int intValue;
 		private static java.util.HashMap<Integer, EnumSellChannel> mappings;

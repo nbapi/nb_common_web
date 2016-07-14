@@ -5,6 +5,8 @@ import java.lang.reflect.Type;
 import org.apache.commons.lang3.EnumUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -22,6 +24,8 @@ import com.google.gson.JsonPrimitive;
 @SuppressWarnings("rawtypes")
 public class EnumTypeAdapter implements JsonDeserializer<Enum> {
 
+	private static Logger LocalMsg = LogManager.getLogger(EnumTypeAdapter.class);
+	
 	@SuppressWarnings("unchecked")
 	public Enum deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
 		if (!(json instanceof JsonPrimitive)) {
@@ -40,8 +44,8 @@ public class EnumTypeAdapter implements JsonDeserializer<Enum> {
 		try {
 			return (Enum) MethodUtils.invokeStaticMethod((Class) typeOfT, "forValue", enumValue);
 		} catch (Exception e) {
-			e.printStackTrace();
+			LocalMsg.error("Error deserialize type:" + typeOfT + " and value:" + enumValue, e);
+			return null;
 		}
-		return null;
 	}
 }
