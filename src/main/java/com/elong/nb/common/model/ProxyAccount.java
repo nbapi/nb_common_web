@@ -58,7 +58,9 @@ public class ProxyAccount {
 	private Integer MaxDays = 180;/// 搜索、数据、订单使用的日期跨度最大天数
     
 	private int IntegerPriceType; //进行整形价格处理类型：0=不处理,1=Round,2=Ceil
-     
+    
+	private boolean IsOnlyStraight;	//是否过滤非直签
+	
 	/// 获取代理结算价
 	/// <param name="costPrice">酒店底价</param>
 	/// <param name="memberPrice">会员卖价</param>
@@ -307,15 +309,19 @@ public class ProxyAccount {
 		MaxDays = maxDays;
 	}
 	
-	public boolean isCtripOrQunar(){
-        return OrderFrom == 5931 || OrderFrom == 300573;
-    }
-
 	public int getIntegerPriceType() {
 		return IntegerPriceType;
 	}
 	public void setIntegerPriceType(int integerPriceType) {
 		IntegerPriceType = integerPriceType;
 	}
-    
+
+	public boolean isIsOnlyStraight() {
+		return IsOnlyStraight;
+	}
+
+	public void setIsOnlyStraight(boolean isOnlyStraight) {
+		IsOnlyStraight = isOnlyStraight;
+	}
+	
 }
