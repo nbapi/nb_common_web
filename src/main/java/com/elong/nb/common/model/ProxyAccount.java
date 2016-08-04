@@ -21,6 +21,7 @@ public class ProxyAccount {
 	// / 是否开通了预付结算价权限
 	private boolean EnabledPrepaySettlment;
 	// / 预付结算价浮动比率，一般是0.05,0.08,0.10这样的; 新增支持数值大于3的时候直接加价的模式。
+	// 进行了升级，0~1是之前的老规则；[1,2) 是过渡规则，过渡规则的小数点按老规则校验，但按新规则计算；[2, +*)是新规则校验、计算
 	private double PrepaySettlementRate;
 	// / 是否开通了预付虚拟卡
 	private boolean EnabledVirtualCardForPrepay;
@@ -117,19 +118,19 @@ public class ProxyAccount {
 				}
 				double distributionRatio = 0d;
 				if (memberPrice < 100) {
-					distributionRatio = ratio * 0.68d;
+					distributionRatio = ratio * 0.60d;
 				} else if (memberPrice < 200) {
-					distributionRatio = ratio * 0.70d;
+					distributionRatio = ratio * 0.64d;
 				} else if (memberPrice < 300) {
-					distributionRatio = ratio * 0.72d;
+					distributionRatio = ratio * 0.68d;
 				} else if (memberPrice < 400) {
-					distributionRatio = ratio * 0.75d;
+					distributionRatio = ratio * 0.70d;
 				} else if (memberPrice < 500) {
-					distributionRatio = ratio * 0.78d;
+					distributionRatio = ratio * 0.72d;
 				} else if (memberPrice < 1000) {
-					distributionRatio = ratio * 0.80d;
+					distributionRatio = ratio * 0.75d;
 				} else {
-					distributionRatio = ratio * 0.82d;
+					distributionRatio = ratio * 0.80d;
 				}
 				if (costPrice <= 0) {
 					return Math.ceil((memberPrice - costPrice)
