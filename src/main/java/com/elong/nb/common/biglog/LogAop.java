@@ -29,7 +29,7 @@ public class LogAop {
 	 * @param point
 	 * @throws Throwable
 	 */
-	@Before("execution(public * com.elong.nb.controller..*..*(..))")
+	@Before("execution(public * com.elong.nb.controller..*..*(..))||execution(public * com.elong.nb.*.controller..*..*(..))")
 	public void handlerLogBefore(JoinPoint point) {
 		RequestAttributes request = RequestContextHolder.getRequestAttributes();
 		request.setAttribute(Constants.ELONG_REQUEST_STARTTIME, System.currentTimeMillis(), ServletRequestAttributes.SCOPE_REQUEST);
@@ -42,7 +42,7 @@ public class LogAop {
 	 * @param point
 	 * @throws Throwable
 	 */
-	@AfterReturning(pointcut = "execution(public * com.elong.nb.controller..*..*(..))", returning = "returnValue")
+	@AfterReturning(pointcut = "execution(public * com.elong.nb.controller..*..*(..))||execution(public * com.elong.nb.*.controller..*..*(..))", returning = "returnValue")
 	public void handlerLogAfter(JoinPoint point, Object returnValue) {
 		RequestAttributes request = RequestContextHolder.getRequestAttributes();
 		String handlerMethodName = ClassUtils.getShortClassName(point.getSignature().getDeclaringTypeName()) + "."
@@ -56,15 +56,17 @@ public class LogAop {
 		log.setSpan("1.1");
 		log.setServiceName(handlerMethodName);
 		log.setElapsedTime(useTime);
-		log.setRequestBody((String)(request.getAttribute(Constants.ELONG_REQUEST_JSON, ServletRequestAttributes.SCOPE_REQUEST)));
+		log.setRequestBody((String) (request.getAttribute(Constants.ELONG_REQUEST_JSON, ServletRequestAttributes.SCOPE_REQUEST)));
+		@SuppressWarnings("unchecked")
 		ResponseEntity<byte[]> resp = (ResponseEntity<byte[]>) returnValue;
 		log.setResponseBody(new String(resp.getBody()));
 		Object guid = request.getAttribute(Constants.ELONG_REQUEST_REQUESTGUID, ServletRequestAttributes.SCOPE_REQUEST);
-		if (guid != null) log.setUserLogType((String)guid);
+		if (guid != null)
+			log.setUserLogType((String) guid);
 		logger.info(log.toString());
 	}
-	
-	@AfterThrowing(pointcut = "execution(public * com.elong.nb.controller..*..*(..))", throwing = "throwing")
+
+	@AfterThrowing(pointcut = "execution(public * com.elong.nb.controller..*..*(..))||execution(public * com.elong.nb.*.controller..*..*(..))", throwing = "throwing")
 	public void handlerLogThrowing(JoinPoint point, Object throwing) {
 		RequestAttributes request = RequestContextHolder.getRequestAttributes();
 		String handlerMethodName = ClassUtils.getShortClassName(point.getSignature().getDeclaringTypeName()) + "."
@@ -78,13 +80,14 @@ public class LogAop {
 		log.setSpan("1.1");
 		log.setServiceName(handlerMethodName);
 		log.setElapsedTime(useTime);
-		log.setRequestBody((String)(request.getAttribute(Constants.ELONG_REQUEST_JSON, ServletRequestAttributes.SCOPE_REQUEST)));
+		log.setRequestBody((String) (request.getAttribute(Constants.ELONG_REQUEST_JSON, ServletRequestAttributes.SCOPE_REQUEST)));
 		Throwable t = (Throwable) throwing;
 		log.setResponseBody(t.getMessage());
 		log.setException(t);
 		log.setBusinessErrorCode("1");
 		Object guid = request.getAttribute(Constants.ELONG_REQUEST_REQUESTGUID, ServletRequestAttributes.SCOPE_REQUEST);
-		if (guid != null) log.setUserLogType((String)guid);
+		if (guid != null)
+			log.setUserLogType((String) guid);
 		logger.info(log.toString());
 	}
 
