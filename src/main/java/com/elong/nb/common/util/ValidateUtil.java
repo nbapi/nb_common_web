@@ -2,25 +2,21 @@ package com.elong.nb.common.util;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.elong.nb.common.model.ErrorCode;
 import com.elong.nb.common.model.RestRequest;
 
 public class ValidateUtil {
 
-	private static final String Version = "Version不能为空";
-	private static final String ProxyAccount = "企业账户信息不能为空";
-	private static final String Request = "H000016|Data参数必须填写";
-	private static final String Guid = "H000017|GUID参数必须填写";
-
-	public static String validateRestRequest(RestRequest req) {
+	public static String validateRestRequest(RestRequest<?> req) {
 		StringBuffer sb = new StringBuffer();
 		if (req.getVersion() == null || req.getVersion() <= 0d)
-			sb.append(Version);
+			sb.append(ErrorCode.Common_VersionInvalid);
 		if (req.getRequest() == null)
-			sb.append(Request);
+			sb.append(ErrorCode.Common_DataRequired);
 		if (req.getProxyInfo() == null)
-			sb.append(ProxyAccount);
+			sb.append(ErrorCode.Common_ProxyInfoInvalid);
 		if (StringUtils.isBlank(req.getGuid()))
-			sb.append(Guid);
+			sb.append(ErrorCode.Common_GUIDRequired);
 		return sb.toString();
 	}
 }

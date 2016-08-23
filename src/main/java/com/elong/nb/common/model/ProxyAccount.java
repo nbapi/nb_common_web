@@ -61,6 +61,10 @@ public class ProxyAccount {
 	private int IntegerPriceType; // 进行整形价格处理类型：0=不处理,1=Round,2=Ceil
 
 	private boolean IsOnlyStraight; // 是否过滤非直签
+	/**
+	 * 最低价格利润率，默认0不限制，输入5表示过滤没有5%的利润的价格
+	 */
+	private double LowestProfitPercent;
 
 	// / 获取代理结算价
 	// / <param name="costPrice">酒店底价</param>
@@ -452,6 +456,14 @@ public class ProxyAccount {
 
 	public void setIsOnlyStraight(boolean isOnlyStraight) {
 		IsOnlyStraight = isOnlyStraight;
+	}
+
+	public double getLowestProfitPercent() {
+		return LowestProfitPercent;
+	}
+
+	public void setLowestProfitPercent(double lowestProfitPercent) {
+		LowestProfitPercent = lowestProfitPercent;
 	}
 
 }
