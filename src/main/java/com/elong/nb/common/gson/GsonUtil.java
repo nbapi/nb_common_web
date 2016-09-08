@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.IOUtils;
@@ -52,6 +53,37 @@ public class GsonUtil {
 
 		return req;
 	}
+	
+	@SuppressWarnings("rawtypes")
+	public static <T> RestResponse<T> toResponse(String resultJson,
+			Type typeObj, Map<Class, TypeAdapter> adapters)
+			throws IOException {
+		String json = resultJson;
+
+		//RequestAttributes ra = RequestContextHolder.getRequestAttributes();
+		//ra.setAttribute(Constants.ELONG_REQUEST_JSON, json == null ? "" : json,
+		//		ServletResponseAttributes.SCOPE_REQUEST);
+
+		GsonBuilder gsonBuilder = new GsonBuilder();
+		// 添加枚举适配器
+		gsonBuilder.registerTypeHierarchyAdapter(Enum.class,
+				new EnumTypeAdapter());
+		gsonBuilder.registerTypeAdapter(Date.class, new DateTypeAdapter());
+		if (adapters != null && !adapters.isEmpty()) {
+			for (Entry<Class, TypeAdapter> e : adapters.entrySet()) {
+				gsonBuilder.registerTypeAdapter(e.getKey(), e.getValue());
+			}
+		}
+
+		//Type objectType = type(RestResponse.class, clazz);
+		RestResponse res = gsonBuilder.create().fromJson(json, typeObj);
+
+		//if (res != null && res.getGuid() != null && res.getGuid().length() > 0)
+		//	ra.setAttribute(Constants.ELONG_REQUEST_REQUESTGUID, req.getGuid(),
+		//			ServletRequestAttributes.SCOPE_REQUEST);
+
+		return res;
+	}
 
 	static ParameterizedType type(final Class raw, final Type... args) {
 		return new ParameterizedType() {
@@ -77,6 +109,17 @@ public class GsonUtil {
 		if (version > 0)
 			gsonBuilder.setVersion(version);
 		String json = gsonBuilder.create().toJson(resp, RestResponse.class);
+		return json;
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public static String toJson(RestRequest req, double version) {
+		// 增加版本对应的输出设置
+		GsonBuilder gsonBuilder = new GsonBuilder();
+		gsonBuilder.registerTypeAdapter(Date.class, new DateTypeAdapter());
+		if (version > 0)
+			gsonBuilder.setVersion(version);
+		String json = gsonBuilder.create().toJson(req, RestRequest.class);
 		return json;
 	}
 }
