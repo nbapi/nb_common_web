@@ -57,9 +57,15 @@ public class LogAop {
 		log.setServiceName(handlerMethodName);
 		log.setElapsedTime(useTime);
 		log.setRequestBody((String) (request.getAttribute(Constants.ELONG_REQUEST_JSON, ServletRequestAttributes.SCOPE_REQUEST)));
-		@SuppressWarnings("unchecked")
-		ResponseEntity<byte[]> resp = (ResponseEntity<byte[]>) returnValue;
-		log.setResponseBody(new String(resp.getBody()));
+		String responseStr = null;
+		if (returnValue instanceof String) {
+			responseStr = (String) returnValue;
+		} else {
+			@SuppressWarnings("unchecked")
+			ResponseEntity<byte[]> resp = (ResponseEntity<byte[]>) returnValue;
+			responseStr = new String(resp.getBody());
+		}
+		log.setResponseBody(responseStr);
 		Object guid = request.getAttribute(Constants.ELONG_REQUEST_REQUESTGUID, ServletRequestAttributes.SCOPE_REQUEST);
 		if (guid != null)
 			log.setUserLogType((String) guid);
