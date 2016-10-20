@@ -55,6 +55,17 @@ public interface RedisKeyConst {
 	public static final String INV_BLACK_LIST_REDIS_PREFIX = "inv.new.blacklist.%s";
 
 	public static final String INV_BLACK_LIST_IDS_REDIS_PREFIX = "inv.new.blacklist.ids";
+	
+	// nb_job_data
+	public static final String KEY_IncrSyncHotelMSCache_LastID = "data.hotel.relation.lastId";
+
+	public static final String KEY_RoomType_H_MS = "data.room.shid_msid";
+
+	public static final String KEY_SupplierMap = "data.hotel.supplier";
+	
+	public static final String KEY_SyncTime_MHotelBase = "data.ms.mhotelbase.time";
+	
+	public static final String KEY_SyncTime_Hotel = "data.ms.hotel.time";
 
 	// ICacheKey 常量
 	public static final ICacheKey CacheKey_KEY_Rate_LastID = RedisManager.getCacheKey(KEY_Rate_LastID);
@@ -78,5 +89,15 @@ public interface RedisKeyConst {
 	public static final ICacheKey CacheKey_BBLACK_LIST_LAST_UPDATE_TIME = RedisManager.getCacheKey(BBLACK_LIST_LAST_UPDATE_TIME);
 
 	public static final ICacheKey CacheKey_INV_BLACK_LIST_IDS_REDIS_PREFIX = RedisManager.getCacheKey(INV_BLACK_LIST_IDS_REDIS_PREFIX);
+
+	public static final ICacheKey CacheKey_IncrSyncHotelMSCache_LastID = RedisManager.getCacheKey(KEY_IncrSyncHotelMSCache_LastID);
+
+	public static final ICacheKey CacheKey_KEY_RoomType_H_MS = RedisManager.getCacheKey(KEY_RoomType_H_MS);
+
+	public static final ICacheKey CacheKey_KEY_SupplierMap = RedisManager.getCacheKey(KEY_SupplierMap);
+	
+	public static final ICacheKey CacheKey_KEY_SyncTime_MHotelBase = RedisManager.getCacheKey(KEY_SyncTime_MHotelBase);
+	
+	public static final ICacheKey CacheKEY_KEY_SyncTime_Hotel = RedisManager.getCacheKey(KEY_SyncTime_Hotel);
 
 }
