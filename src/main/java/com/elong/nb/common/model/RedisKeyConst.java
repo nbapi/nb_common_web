@@ -81,6 +81,13 @@ public interface RedisKeyConst {
 
 	public static final String KEY_SyncTime_Hotel = "data.ms.hotel.time";
 	public static final ICacheKey CacheKEY_KEY_SyncTime_Hotel = RedisManager.getCacheKey(KEY_SyncTime_Hotel);
+	
+	// nb_web_data
+	public static final String KEY_RackRateRecordsSet = "Data.RackRate.Record";
+	public static final ICacheKey CacheKEY_KEY_RackRateRecordsSet = RedisManager.getCacheKey(KEY_RackRateRecordsSet);
+	
+	public static final String KEY_Minitor_OrderFrom_ProjectName = "Minitor.OrderFrom.ProjectName.%d";
+	public static final String KEY_SupplierCooType = "SupplierCooType_%d";
 
 	// nb_job_static
 	public static final String KEY_GenerateXMLTaskHOTELID_STATUS = "GenerateXMLTaskHOTELID_STATUS";
