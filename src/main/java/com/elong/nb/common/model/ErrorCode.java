@@ -218,6 +218,7 @@ public interface ErrorCode {
 	public static final String Order_CanNotFindRatePlan = "H001122|获取产品信息失败，获取不到RatePlan";
 	public static final String Order_CheckInventory = "H001123|获取库存失败，或者房量不够";
 	public static final String Order_CheckRate = "H001124|获取价格失败，或者价格不可用";
+	public static final String ORDER_FAILBECAUSEOFSEARCH="H001125|搜索接口异常造成成单失败";
 	// endregion
 
 	// region 搜索 H002001
