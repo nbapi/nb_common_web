@@ -2,6 +2,7 @@ package com.elong.nb.common.biglog;
 
 import java.util.UUID;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.ClassUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -58,7 +59,9 @@ public class LogAop {
 		log.setElapsedTime(useTime);
 		log.setRequestBody((String) (request.getAttribute(Constants.ELONG_REQUEST_JSON, ServletRequestAttributes.SCOPE_REQUEST)));
 		String responseStr = null;
-		if (returnValue instanceof String) {
+		if(StringUtils.equals("IncrController.getIncrDatas", handlerMethodName)){
+			responseStr = null;
+		}else if (returnValue instanceof String) {
 			responseStr = (String) returnValue;
 		} else {
 			@SuppressWarnings("unchecked")
