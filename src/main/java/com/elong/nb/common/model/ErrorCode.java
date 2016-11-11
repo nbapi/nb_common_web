@@ -219,6 +219,9 @@ public interface ErrorCode {
 	public static final String Order_CheckInventory = "H001123|获取库存失败，或者房量不够";
 	public static final String Order_CheckRate = "H001124|获取价格失败，或者价格不可用";
 	public static final String ORDER_FAILBECAUSEOFSEARCH="H001125|搜索接口异常造成成单失败";
+
+	public static final String Common_MoreMaxLength="H001129|超过最大长度：";
+	public static final String Common_BetweenRange="H001130|不许在区间内";
 	// endregion
 
 	// region 搜索 H002001
@@ -248,5 +251,6 @@ public interface ErrorCode {
 	// endregion
 
 	public static final String Unknown = "H099999999|未知错误";
+	
 
 }
