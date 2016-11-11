@@ -86,7 +86,7 @@ public interface RedisKeyConst {
 	public static final String KEY_RackRateRecordsSet = "Data.RackRate.Record";
 	public static final ICacheKey CacheKEY_KEY_RackRateRecordsSet = RedisManager.getCacheKey(KEY_RackRateRecordsSet);
 	
-	public static final String KEY_Minitor_OrderFrom_ProjectName = "Minitor.OrderFrom.ProjectName.%d";
+	public static final String KEY_Minitor_OrderFrom_ProjectName = "Minitor.OrderFrom.ProjectName.%s";
 	public static final String KEY_SupplierCooType = "SupplierCooType_%d";
 
 	// nb_job_static
