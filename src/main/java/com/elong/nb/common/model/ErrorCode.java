@@ -252,5 +252,4 @@ public interface ErrorCode {
 
 	public static final String Unknown = "H099999999|未知错误";
 	
-
 }
