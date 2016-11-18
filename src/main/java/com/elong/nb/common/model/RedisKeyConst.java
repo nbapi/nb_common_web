@@ -120,5 +120,7 @@ public interface RedisKeyConst {
 	// nb_job_public
 	public static final String KEY_CURRENCY = "data.currency";
 	public static final ICacheKey CacheKey_KEY_CURRENCY = RedisManager.getCacheKey(KEY_CURRENCY);
+	
+	public static final String KEY_LAST_URGE="user.urge.%s";
 
 }

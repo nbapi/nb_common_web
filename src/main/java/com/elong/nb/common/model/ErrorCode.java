@@ -192,7 +192,7 @@ public interface ErrorCode {
 	public static final String Order_CreditCardInvalid = "H001099|信用卡验证失败：";
 	public static final String Order_CreditCardRequired = "H001100|需要提供信用卡";
 
-	public static final String Order_PaymentIsNotPayable = "H001101|订单当前不能进行支付";
+	public static final String Order_PaymentIsNotPayable = "H001101-0|当前订单不能支付或不需要支付";
 	public static final String Order_PaymentAmountIsLess = "H001102|支付金额小于应支付金额￥{0}";
 
 	public static final String Order_QueryOrderError = "H001103|查询订单信息错误，请重试";
