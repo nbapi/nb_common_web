@@ -222,6 +222,7 @@ public interface ErrorCode {
 
 	public static final String Common_MoreMaxLength="H001129|超过最大长度：";
 	public static final String Common_BetweenRange="H001130|不许在区间内";
+	public static final String NumberIds_FormatOrNumError="H001131|字符串格式错误且个数不能大于10";
 	// endregion
 
 	// region 搜索 H002001
