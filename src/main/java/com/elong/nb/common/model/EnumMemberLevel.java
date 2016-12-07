@@ -42,6 +42,6 @@ public enum EnumMemberLevel
 
 	public static EnumMemberLevel forValue(int value)
 	{
-		return EnumMemberLevel.Normal;
+		return getMappings().get(value);
 	}
 }
