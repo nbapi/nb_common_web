@@ -122,5 +122,8 @@ public interface RedisKeyConst {
 	public static final ICacheKey CacheKey_KEY_CURRENCY = RedisManager.getCacheKey(KEY_CURRENCY);
 	
 	public static final String KEY_LAST_URGE="user.urge.%s";
+	
+	public static final String KEY_OPENAPI_APPSERVER_CONFIG="openapi.appserver.config";
+	public static final ICacheKey CacheKey_KEY_OPENAPI_APPSERVER_CONFIG = RedisManager.getCacheKey(KEY_OPENAPI_APPSERVER_CONFIG);
 
 }
