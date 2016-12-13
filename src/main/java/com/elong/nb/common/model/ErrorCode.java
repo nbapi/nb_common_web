@@ -219,7 +219,7 @@ public interface ErrorCode {
 	public static final String Order_CheckInventory = "H001123|获取库存失败，或者房量不够";
 	public static final String Order_CheckRate = "H001124|获取价格失败，或者价格不可用";
 	public static final String ORDER_FAILBECAUSEOFSEARCH="H001125|搜索接口异常造成成单失败";
-
+	public static final String Order_CustomperPrice_InvoiceMode="H001126|结算价产品需要给酒店开发票，总卖家必填，且不能高于最低总卖家的50%";
 	public static final String Common_MoreMaxLength="H001129|超过最大长度：";
 	public static final String Common_BetweenRange="H001130|不许在区间内";
 	public static final String NumberIds_FormatOrNumError="H001131|字符串格式错误且个数不能大于10";

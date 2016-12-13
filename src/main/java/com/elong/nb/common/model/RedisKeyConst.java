@@ -97,6 +97,8 @@ public interface RedisKeyConst {
 
 	public static final String KEY_HOTEL_CITY = "data.hotel.city";
 	public static final ICacheKey CacheKey_KEY_HOTEL_CITY = RedisManager.getCacheKey(KEY_HOTEL_CITY);
+	
+	public static final String KEY_HOTEL_CITYNAME="data.hote.cityName.%s";
 
 	public static final String KEY_HOTEL_BASEINFO = "h:%s:baseinfo:%s";
 
