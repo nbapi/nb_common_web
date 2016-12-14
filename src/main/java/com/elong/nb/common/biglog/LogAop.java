@@ -17,8 +17,9 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-@Component
-@Aspect
+//注掉这个aop，因为要上最新版checklist了，两个aop会记两遍
+//@Component
+//@Aspect
 public class LogAop {
 
 	private static Logger logger = LogManager.getLogger("biglog");
