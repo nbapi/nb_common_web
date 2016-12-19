@@ -127,5 +127,8 @@ public interface RedisKeyConst {
 	
 	public static final String KEY_OPENAPI_APPSERVER_CONFIG="openapi.appserver.config";
 	public static final ICacheKey CacheKey_KEY_OPENAPI_APPSERVER_CONFIG = RedisManager.getCacheKey(KEY_OPENAPI_APPSERVER_CONFIG);
+	
+	public static final String KEY_CommisionLevel_Version="commisionlevel.version";
+	public static final ICacheKey CacheKey_KEY_CommisionLevel_Version = RedisManager.getCacheKey(KEY_CommisionLevel_Version);
 
 }

@@ -36,8 +36,10 @@ public class RestRequest<T>{
 	private Double Version;
 	
 	private EnumLocal Local = EnumLocal.zh_CN;
+	@SerializedName(alternate="request", value = "Request")
 	private T Request;
 	private ProxyAccount ProxyInfo;
+	@SerializedName(alternate="guid", value = "Guid")
 	private String Guid;
 	
 	public String getGuid() {
