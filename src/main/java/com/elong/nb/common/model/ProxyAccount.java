@@ -3,6 +3,21 @@ package com.elong.nb.common.model;
 import com.elong.nb.common.util.BigDecimalUtils;
 
 public class ProxyAccount {
+
+	/** 
+	 * 佣金过滤－现付等级
+	 *
+	 * EnumAgencyLevel ProxyAccount.java agencyLevel
+	 */
+	private EnumAgencyLevel agencyLevel;
+
+	/** 
+	 * 佣金过滤－预付等级
+	 *
+	 * EnumPrepayLevel ProxyAccount.java prepayLevel
+	 */
+	private EnumPrepayLevel prepayLevel;
+
 	private String UserName;
 	private String AppKey;
 	private int UserGroup;// API账户分组
@@ -70,8 +85,7 @@ public class ProxyAccount {
 	// / <param name="costPrice">酒店底价</param>
 	// / <param name="memberPrice">会员卖价</param>
 	// / <returns></returns>
-	public double getSettlementPrice(double costPrice, double memberPrice,
-			boolean isForCheck) {
+	public double getSettlementPrice(double costPrice, double memberPrice, boolean isForCheck) {
 		if ((EnabledPrepaySettlment || EnableReturnAgentcyRateCost)) {
 			// 预付产品出现底价倒挂问题，就告诉他们高的底价
 			// 酒店底价无效的时候尽量返回会员价作为结算价
@@ -83,13 +97,11 @@ public class ProxyAccount {
 					return -1;
 				}
 			}
-			if (BigDecimalUtils.compareTo(memberPrice, 0) <= 0
-					|| BigDecimalUtils.compareTo(costPrice, memberPrice) > 0) {
+			if (BigDecimalUtils.compareTo(memberPrice, 0) <= 0 || BigDecimalUtils.compareTo(costPrice, memberPrice) > 0) {
 				return -1;
 			}
 
-			if (PrepaySettlementRate < 1
-					|| (PrepaySettlementRate < 2 && isForCheck)) {
+			if (PrepaySettlementRate < 1 || (PrepaySettlementRate < 2 && isForCheck)) {
 				// 佣金率大于40%，则是底价设置错误，代理以会员价销售
 				// 2016.3.25 将利润率保护的阈值提高到60%，且按照利润率的平方根*3计算接口吐出的利润率
 				double ratio = (memberPrice - costPrice) / memberPrice;
@@ -97,16 +109,14 @@ public class ProxyAccount {
 					ratio = (double) (100 - Math.sqrt((double) ratio * 100) * 3) / 100;
 					return Math.ceil(memberPrice * ratio);
 				}
-				double convertPrepaySettlementRate = PrepaySettlementRate >= 1 ? (PrepaySettlementRate - 1)
-						: PrepaySettlementRate;
+				double convertPrepaySettlementRate = PrepaySettlementRate >= 1 ? (PrepaySettlementRate - 1) : PrepaySettlementRate;
 
 				double price = memberPrice;
 				if (convertPrepaySettlementRate > 0) {
 					if (convertPrepaySettlementRate <= 0.0001d) {
 						price = costPrice;
 					} else {
-						price = Math.ceil(costPrice
-								* (1 + convertPrepaySettlementRate));
+						price = Math.ceil(costPrice * (1 + convertPrepaySettlementRate));
 					}
 				}
 				// 防止价格上浮后，出现结算价过高
@@ -137,8 +147,7 @@ public class ProxyAccount {
 					distributionRatio = ratio * 0.80d;
 				}
 				if (costPrice <= 0) {
-					return Math.ceil((memberPrice - costPrice)
-							* distributionRatio);
+					return Math.ceil((memberPrice - costPrice) * distributionRatio);
 				}
 				double lowestRatio = 0.06d;
 				if (memberPrice < 200) {
@@ -149,8 +158,7 @@ public class ProxyAccount {
 				if (memberPrice <= minPrice) {
 					return memberPrice;
 				} else {
-					double price = Math.ceil(costPrice
-							* (1 + distributionRatio));
+					double price = Math.ceil(costPrice * (1 + distributionRatio));
 					if (price < minPrice) {
 						return minPrice;
 					} else if (price < memberPrice) {
@@ -290,8 +298,7 @@ public class ProxyAccount {
 		return EnabledVirtualCardForPrepay;
 	}
 
-	public void setEnabledVirtualCardForPrepay(
-			Boolean enabledVirtualCardForPrepay) {
+	public void setEnabledVirtualCardForPrepay(Boolean enabledVirtualCardForPrepay) {
 		EnabledVirtualCardForPrepay = enabledVirtualCardForPrepay;
 	}
 
@@ -299,8 +306,7 @@ public class ProxyAccount {
 		return EnabledVirtualCardForGuarantee;
 	}
 
-	public void setEnabledVirtualCardForGuarantee(
-			Boolean enabledVirtualCardForGuarantee) {
+	public void setEnabledVirtualCardForGuarantee(Boolean enabledVirtualCardForGuarantee) {
 		EnabledVirtualCardForGuarantee = enabledVirtualCardForGuarantee;
 	}
 
@@ -372,8 +378,7 @@ public class ProxyAccount {
 		return EnableIgnoreCheckingDuplicatedOrder;
 	}
 
-	public void setEnableIgnoreCheckingDuplicatedOrder(
-			Boolean enableIgnoreCheckingDuplicatedOrder) {
+	public void setEnableIgnoreCheckingDuplicatedOrder(Boolean enableIgnoreCheckingDuplicatedOrder) {
 		EnableIgnoreCheckingDuplicatedOrder = enableIgnoreCheckingDuplicatedOrder;
 	}
 
@@ -381,8 +386,7 @@ public class ProxyAccount {
 		return EnableReturnAgentcyRateCost;
 	}
 
-	public void setEnableReturnAgentcyRateCost(
-			Boolean enableReturnAgentcyRateCost) {
+	public void setEnableReturnAgentcyRateCost(Boolean enableReturnAgentcyRateCost) {
 		EnableReturnAgentcyRateCost = enableReturnAgentcyRateCost;
 	}
 
@@ -464,6 +468,42 @@ public class ProxyAccount {
 
 	public void setLowestProfitPercent(double lowestProfitPercent) {
 		LowestProfitPercent = lowestProfitPercent;
+	}
+
+	/**   
+	 * 得到agencyLevel的值   
+	 *   
+	 * @return agencyLevel的值
+	 */
+	public EnumAgencyLevel getAgencyLevel() {
+		return agencyLevel;
+	}
+
+	/**
+	 * 设置agencyLevel的值
+	 *   
+	 * @param agencyLevel 被设置的值
+	 */
+	public void setAgencyLevel(EnumAgencyLevel agencyLevel) {
+		this.agencyLevel = agencyLevel;
+	}
+
+	/**   
+	 * 得到prepayLevel的值   
+	 *   
+	 * @return prepayLevel的值
+	 */
+	public EnumPrepayLevel getPrepayLevel() {
+		return prepayLevel;
+	}
+
+	/**
+	 * 设置prepayLevel的值
+	 *   
+	 * @param prepayLevel 被设置的值
+	 */
+	public void setPrepayLevel(EnumPrepayLevel prepayLevel) {
+		this.prepayLevel = prepayLevel;
 	}
 
 }
