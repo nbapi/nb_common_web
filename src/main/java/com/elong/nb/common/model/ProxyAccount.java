@@ -7,16 +7,16 @@ public class ProxyAccount {
 	/** 
 	 * 佣金过滤－现付等级
 	 *
-	 * EnumAgencyLevel ProxyAccount.java AgencyLevel
+	 * EnumAgencyLevel ProxyAccount.java AgencyCommisionLevel
 	 */
-	private EnumAgencyLevel AgencyLevel;
+	private EnumAgencyLevel AgencyCommisionLevel;
 
 	/** 
 	 * 佣金过滤－预付等级
 	 *
-	 * EnumPrepayLevel ProxyAccount.java PrepayLevel
+	 * EnumPrepayLevel ProxyAccount.java PrepayCommisionLevel
 	 */
-	private EnumPrepayLevel PrepayLevel;
+	private EnumPrepayLevel PrepayCommisionLevel;
 
 	private String UserName;
 	private String AppKey;
@@ -471,39 +471,39 @@ public class ProxyAccount {
 	}
 
 	/**   
-	 * 得到agencyLevel的值   
+	 * 得到AgencyCommisionLevel的值   
 	 *   
-	 * @return agencyLevel的值
+	 * @return AgencyCommisionLevel的值
 	 */
-	public EnumAgencyLevel getAgencyLevel() {
-		return AgencyLevel;
+	public EnumAgencyLevel getAgencyCommisionLevel() {
+		return AgencyCommisionLevel;
 	}
 
 	/**
-	 * 设置agencyLevel的值
+	 * 设置AgencyCommisionLevel的值
 	 *   
-	 * @param agencyLevel 被设置的值
+	 * @param AgencyCommisionLevel 被设置的值
 	 */
-	public void setAgencyLevel(EnumAgencyLevel agencyLevel) {
-		this.AgencyLevel = agencyLevel;
+	public void setAgencyCommisionLevel(EnumAgencyLevel AgencyCommisionLevel) {
+		this.AgencyCommisionLevel = AgencyCommisionLevel;
 	}
 
 	/**   
-	 * 得到prepayLevel的值   
+	 * 得到PrepayCommisionLevel的值   
 	 *   
-	 * @return prepayLevel的值
+	 * @return PrepayCommisionLevel的值
 	 */
-	public EnumPrepayLevel getPrepayLevel() {
-		return PrepayLevel;
+	public EnumPrepayLevel getPrepayCommisionLevel() {
+		return PrepayCommisionLevel;
 	}
 
 	/**
-	 * 设置prepayLevel的值
+	 * 设置PrepayCommisionLevel的值
 	 *   
-	 * @param prepayLevel 被设置的值
+	 * @param PrepayCommisionLevel 被设置的值
 	 */
-	public void setPrepayLevel(EnumPrepayLevel prepayLevel) {
-		this.PrepayLevel = prepayLevel;
+	public void setPrepayCommisionLevel(EnumPrepayLevel PrepayCommisionLevel) {
+		this.PrepayCommisionLevel = PrepayCommisionLevel;
 	}
 
 }
