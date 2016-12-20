@@ -7,16 +7,16 @@ public class ProxyAccount {
 	/** 
 	 * 佣金过滤－现付等级
 	 *
-	 * EnumAgencyLevel ProxyAccount.java agencyLevel
+	 * EnumAgencyLevel ProxyAccount.java AgencyLevel
 	 */
-	private EnumAgencyLevel agencyLevel;
+	private EnumAgencyLevel AgencyLevel;
 
 	/** 
 	 * 佣金过滤－预付等级
 	 *
-	 * EnumPrepayLevel ProxyAccount.java prepayLevel
+	 * EnumPrepayLevel ProxyAccount.java PrepayLevel
 	 */
-	private EnumPrepayLevel prepayLevel;
+	private EnumPrepayLevel PrepayLevel;
 
 	private String UserName;
 	private String AppKey;
@@ -476,7 +476,7 @@ public class ProxyAccount {
 	 * @return agencyLevel的值
 	 */
 	public EnumAgencyLevel getAgencyLevel() {
-		return agencyLevel;
+		return AgencyLevel;
 	}
 
 	/**
@@ -485,7 +485,7 @@ public class ProxyAccount {
 	 * @param agencyLevel 被设置的值
 	 */
 	public void setAgencyLevel(EnumAgencyLevel agencyLevel) {
-		this.agencyLevel = agencyLevel;
+		this.AgencyLevel = agencyLevel;
 	}
 
 	/**   
@@ -494,7 +494,7 @@ public class ProxyAccount {
 	 * @return prepayLevel的值
 	 */
 	public EnumPrepayLevel getPrepayLevel() {
-		return prepayLevel;
+		return PrepayLevel;
 	}
 
 	/**
@@ -503,7 +503,7 @@ public class ProxyAccount {
 	 * @param prepayLevel 被设置的值
 	 */
 	public void setPrepayLevel(EnumPrepayLevel prepayLevel) {
-		this.prepayLevel = prepayLevel;
+		this.PrepayLevel = prepayLevel;
 	}
 
 }
