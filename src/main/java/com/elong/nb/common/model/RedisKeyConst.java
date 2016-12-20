@@ -130,5 +130,8 @@ public interface RedisKeyConst {
 	
 	public static final String KEY_CommisionLevel_Version="commisionlevel.version";
 	public static final ICacheKey CacheKey_KEY_CommisionLevel_Version = RedisManager.getCacheKey(KEY_CommisionLevel_Version);
+	
+	public static final String KEY_HotelCodeBlackList="hotelcode.blacklist";
+	public static final ICacheKey CacheKey_KEY_HotelCodeBlackList = RedisManager.getCacheKey(KEY_HotelCodeBlackList);
 
 }
