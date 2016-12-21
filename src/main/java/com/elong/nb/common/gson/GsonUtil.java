@@ -103,6 +103,9 @@ public class GsonUtil {
 
 	@SuppressWarnings("rawtypes")
 	public static String toJson(RestResponse resp, double version) {
+		RequestAttributes ra = RequestContextHolder.getRequestAttributes();
+		ra.setAttribute(Constants.ELONG_RESPONSE_CODE, resp == null||resp.getCode()==null ? "" : resp.getCode().split("\\|")[0],
+				ServletRequestAttributes.SCOPE_REQUEST);
 		// 增加版本对应的输出设置
 		GsonBuilder gsonBuilder = new GsonBuilder();
 		gsonBuilder.registerTypeAdapter(Date.class, new DateTypeAdapter());
