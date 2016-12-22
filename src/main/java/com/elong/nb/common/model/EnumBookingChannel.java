@@ -66,6 +66,10 @@ public enum EnumBookingChannel
 
 	public static EnumBookingChannel forValue(int value)
 	{
-		return getMappings().get(value);
+		if(getMappings().containsKey(value)){
+			return getMappings().get(value);
+		}else{
+			return OnLine;
+		}
 	}
 }
