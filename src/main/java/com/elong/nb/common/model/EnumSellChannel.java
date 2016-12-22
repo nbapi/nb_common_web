@@ -48,7 +48,11 @@ package com.elong.nb.common.model;
 
 		public static EnumSellChannel forValue(int value)
 		{
-			return getMappings().get(value);
+			if(getMappings().containsKey(value)){
+				return getMappings().get(value);
+			}else{
+				return A;
+			}
 		}
 	}
 //#endif

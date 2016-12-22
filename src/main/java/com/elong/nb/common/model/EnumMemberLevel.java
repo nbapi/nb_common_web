@@ -42,6 +42,10 @@ public enum EnumMemberLevel
 
 	public static EnumMemberLevel forValue(int value)
 	{
-		return getMappings().get(value);
+		if(getMappings().containsKey(value)){
+			return getMappings().get(value);
+		}else{
+			return Normal;
+		}
 	}
 }
