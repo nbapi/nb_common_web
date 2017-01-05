@@ -5,4 +5,6 @@ public class Constants {
 	public static final String ELONG_REQUEST_REQUESTGUID = "elongRequestGuid";
 	
 	public static final String ELONG_REQUEST_JSON = "elongRequestJson";
+	
+	public static final String ELONG_RESPONSE_CODE = "elongResponseCode";
 }
