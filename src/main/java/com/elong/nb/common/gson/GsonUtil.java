@@ -136,7 +136,7 @@ public class GsonUtil {
 		return json;
 	}
 	@SuppressWarnings("rawtypes")
-	public static<T> String toJsonResponse(T req) {
+	public static<T> String toJsonT(T req) {
 		// 增加版本对应的输出设置
 		GsonBuilder gsonBuilder = new GsonBuilder();
 		gsonBuilder.registerTypeAdapter(Date.class, new DateTypeAdapter());
