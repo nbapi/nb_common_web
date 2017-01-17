@@ -125,4 +125,13 @@ public class GsonUtil {
 		String json = gsonBuilder.create().toJson(req, RestRequest.class);
 		return json;
 	}
+	
+	@SuppressWarnings("rawtypes")
+	public static<T> String toJson(T req) {
+		// 增加版本对应的输出设置
+		GsonBuilder gsonBuilder = new GsonBuilder();
+		gsonBuilder.registerTypeAdapter(Date.class, new DateTypeAdapter());
+		String json = gsonBuilder.create().toJson(req, RestRequest.class);
+		return json;
+	}
 }
