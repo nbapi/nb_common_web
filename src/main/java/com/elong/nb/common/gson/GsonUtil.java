@@ -127,6 +127,15 @@ public class GsonUtil {
 	}
 	
 	@SuppressWarnings("rawtypes")
+	public static String toJsonT(RestResponse resp, double version) {
+		GsonBuilder gsonBuilder = new GsonBuilder();
+		gsonBuilder.registerTypeAdapter(Date.class, new DateTypeAdapter());
+		if (version > 0)
+			gsonBuilder.setVersion(version);
+		String json = gsonBuilder.create().toJson(resp, RestResponse.class);
+		return json;
+	}
+	@SuppressWarnings("rawtypes")
 	public static<T> String toJson(T req) {
 		// 增加版本对应的输出设置
 		GsonBuilder gsonBuilder = new GsonBuilder();
