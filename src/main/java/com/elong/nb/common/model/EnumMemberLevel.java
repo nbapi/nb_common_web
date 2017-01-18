@@ -1,7 +1,7 @@
 package com.elong.nb.common.model;
 
 /** 
-会员级别
+会员级别 1普通会员  2贵宾  3龙翠  4钻石龙翠
 
 */
 public enum EnumMemberLevel
@@ -11,11 +11,15 @@ public enum EnumMemberLevel
 	*/
 	Normal(1),
 	/** 
-	 VIP会员
+	 贵宾
 	*/
 	VIP(2),
 	/** 
 	 龙萃会员
+	*/
+	LONGCUI(3),
+	/** 
+	 钻石龙翠
 	*/
 	SVIP(4);
 	private int intValue;
@@ -42,10 +46,6 @@ public enum EnumMemberLevel
 
 	public static EnumMemberLevel forValue(int value)
 	{
-		if(getMappings().containsKey(value)){
-			return getMappings().get(value);
-		}else{
-			return Normal;
-		}
+		return getMappings().get(value);
 	}
 }
