@@ -113,6 +113,7 @@ public interface ErrorCode {
 	public static final String Order_CreditCardIdNoRequired = "H001036|信用卡证件号码必须填写";
 	public static final String Order_CreditCardVcardIsInValid = "H001037|信用卡失效或已担保或已支付业务已经失效";
 	public static final String Order_PrepayOrderCreditCardRequired = "H001038|预付或强制担保订单信用卡信息必须填写";
+	public static final String Order_PrepayOrderPaymentInfoRequired = "H001038-1|预付或强制担保订单支付信息必须填写";
 	public static final String Order_PrepayOrderMustIsGurantedOrCharged = "H001039|预付或强制担保订单必须设置为已经担保或已经支付";
 	public static final String Order_NoVcardRightCanNotSetPay = "H001040|无支付或担保权限,不能设置为已经担保或已经支付";
 	public static final String Order_PrepayOrderCreditCardNoNeed = "H001041|使用已担保或已支付业务，不需要提供信用卡信息";
