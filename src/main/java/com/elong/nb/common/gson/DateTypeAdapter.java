@@ -86,7 +86,9 @@ public final class DateTypeAdapter extends TypeAdapter<Date> {
 					"yyyy-MM-dd'T'HH:mm:ss",
 					"yyyy-MM-dd'T'HH:mm:ss.SSS",
 					"yyyy-MM-dd'T'HH:mm:ss'+08:00'",
-					"yyyy-MM-dd'T'HH:mm:ss.SSS'+08:00'"
+					"yyyy-MM-dd'T'HH:mm:ss.SSS'+08:00'",
+					"yyyy.MM.dd'T'HH:mm:ss'+08:00'",
+					"yyyy.MM.dd'T'HH:mm:ss' +08:00'"
 					});
 		} catch (ParseException e) {
 			LocalMsg.error(json + " This msg json can't be parse!!!");
