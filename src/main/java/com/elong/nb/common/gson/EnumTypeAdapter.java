@@ -40,16 +40,6 @@ public class EnumTypeAdapter implements JsonDeserializer<Enum> {
 
 		if (!isNumber) {
 			// 普通的枚举处理,
-		/*	Map<String, ?>map=EnumUtils.getEnumMap((Class)typeOfT);
-			if(map!=null&&map.keySet()!=null&&map.keySet().size()>0){
-				for (String key : map.keySet()) {
-					if(value.toLowerCase().equals(key.toLowerCase())){
-						value=key;
-						break;
-					}
-				}
-			}
-			return EnumUtils.getEnum((Class) typeOfT,value);*/
 			return EnumUtils.getEnum((Class) typeOfT, json.getAsString());
 		}
 
