@@ -40,7 +40,7 @@ public class EnumTypeAdapter implements JsonDeserializer<Enum> {
 
 		if (!isNumber) {
 			// 普通的枚举处理,
-			Map<String, ?>map=EnumUtils.getEnumMap((Class)typeOfT);
+		/*	Map<String, ?>map=EnumUtils.getEnumMap((Class)typeOfT);
 			if(map!=null&&map.keySet()!=null&&map.keySet().size()>0){
 				for (String key : map.keySet()) {
 					if(value.toLowerCase().equals(key.toLowerCase())){
@@ -49,8 +49,8 @@ public class EnumTypeAdapter implements JsonDeserializer<Enum> {
 					}
 				}
 			}
-			return EnumUtils.getEnum((Class) typeOfT,value);
-			//return EnumUtils.getEnum((Class) typeOfT, json.getAsString());
+			return EnumUtils.getEnum((Class) typeOfT,value);*/
+			return EnumUtils.getEnum((Class) typeOfT, json.getAsString());
 		}
 
 		// 不是字符串的情况
