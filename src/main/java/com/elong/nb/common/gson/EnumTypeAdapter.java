@@ -1,12 +1,16 @@
 package com.elong.nb.common.gson;
 
 import java.lang.reflect.Type;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang3.EnumUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.codehaus.groovy.util.Finalizable;
+import org.hibernate.engine.Mapping;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -35,8 +39,18 @@ public class EnumTypeAdapter implements JsonDeserializer<Enum> {
 		boolean isNumber = NumberUtils.isNumber(value);
 
 		if (!isNumber) {
-			// 普通的枚举处理
-			return EnumUtils.getEnum((Class) typeOfT, json.getAsString());
+			// 普通的枚举处理,
+			Map<String, ?>map=EnumUtils.getEnumMap((Class)typeOfT);
+			if(map!=null&&map.keySet()!=null&&map.keySet().size()>0){
+				for (String key : map.keySet()) {
+					if(value.toLowerCase().equals(key.toLowerCase())){
+						value=key;
+						break;
+					}
+				}
+			}
+			return EnumUtils.getEnum((Class) typeOfT,value);
+			//return EnumUtils.getEnum((Class) typeOfT, json.getAsString());
 		}
 
 		// 不是字符串的情况
@@ -48,4 +62,5 @@ public class EnumTypeAdapter implements JsonDeserializer<Enum> {
 			return null;
 		}
 	}
+	
 }
