@@ -37,7 +37,10 @@ public class ProxyAccount {
 	private boolean EnabledPrepaySettlment;
 	// / 预付结算价浮动比率，一般是0.05,0.08,0.10这样的; 新增支持数值大于3的时候直接加价的模式。
 	// 进行了升级，0~1是之前的老规则；[1,2) 是过渡规则，过渡规则的小数点按老规则校验，但按新规则计算；[2, +*)是新规则校验、计算
+	//2017.2.23后 此字段功能拆分，只做加价率使用。取值范围 0~1
 	private double PrepaySettlementRate;
+	//预付定价模式：1、老定价模式 2、兼容模式 3、新定价模式
+	private int PrepaySettlementRateMode;
 	// / 是否开通了预付虚拟卡
 	private boolean EnabledVirtualCardForPrepay;
 	// / 是否开通了担保虚拟卡
@@ -504,6 +507,20 @@ public class ProxyAccount {
 	 */
 	public void setPrepayCommisionLevel(EnumPrepayLevel PrepayCommisionLevel) {
 		this.PrepayCommisionLevel = PrepayCommisionLevel;
+	}
+
+	/**
+	 * @return the prepaySettlementRateMode
+	 */
+	public int getPrepaySettlementRateMode() {
+		return PrepaySettlementRateMode;
+	}
+
+	/**
+	 * @param prepaySettlementRateMode the prepaySettlementRateMode to set
+	 */
+	public void setPrepaySettlementRateMode(int prepaySettlementRateMode) {
+		PrepaySettlementRateMode = prepaySettlementRateMode;
 	}
 
 }

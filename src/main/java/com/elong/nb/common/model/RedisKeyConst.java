@@ -134,9 +134,9 @@ public interface RedisKeyConst {
 	public static final String KEY_HotelCodeBlackList="hotelcode.blacklist";
 	public static final ICacheKey CacheKey_KEY_HotelCodeBlackList = RedisManager.getCacheKey(KEY_HotelCodeBlackList);
 	
-	public static final String KEY_PAOrBuyoutList="pa.buyout.list.%s";
+	public static final String KEY_KAOrBuyoutList="ka.buyout.list.%s";
 	//public static final ICacheKey CacheKey_KEY_PAOrBuyoutList = RedisManager.getCacheKey(KEY_PAOrBuyoutList);
 	
-	public static final String KEY_PAOrBuyoutListVersion="pa.buyout.list.version";
-	public static final ICacheKey CacheKey_KEY_PAOrBuyoutListVersion = RedisManager.getCacheKey(KEY_PAOrBuyoutListVersion);
+	public static final String KEY_KAOrBuyoutListVersion="ka.buyout.list.version";
+	public static final ICacheKey CacheKey_KEY_KAOrBuyoutListVersion = RedisManager.getCacheKey(KEY_KAOrBuyoutListVersion);
 }

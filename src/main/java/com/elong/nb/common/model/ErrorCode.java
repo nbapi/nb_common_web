@@ -243,6 +243,7 @@ public interface ErrorCode {
 
 	// region 数据 H004001
 	public static final String Data_NoPrepayProducts = "H004001|无预付产品权限";
+	public static final String Data_NoCurrencyRate="H004002|没有当前汇率信息";
 	// endregion
 
 	// region 其他 H005001
