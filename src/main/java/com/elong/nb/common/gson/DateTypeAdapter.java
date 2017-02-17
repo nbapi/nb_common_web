@@ -73,7 +73,7 @@ public final class DateTypeAdapter extends TypeAdapter<Date> {
 		Date jsonDate;
 		json = json.trim();
 		if (isWithMicSecends(json)) json = json.substring(0, 19);
-		try {
+	 	try {
 			jsonDate = DateUtils.parseDate(json, new String[] {
 					"MM/dd/yyyy",
 					"yyyy.MM.dd",
