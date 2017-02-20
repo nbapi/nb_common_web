@@ -81,6 +81,8 @@ public final class DateTypeAdapter extends TypeAdapter<Date> {
 					"yyyy-MM-dd HH:mm",
 					"yyyy-MM-dd HH:mm:ss",
 					"yyyy/MM/dd HH:mm:ss",
+					"MM/dd/yy HH:mm",
+					"MM/dd/yyyy HH:mm:ss",
 					"yyyy-MM-dd HH:mm:ss.SSS",
 					"yyyy-MM-dd'+'HH:mm:ss",
 					"yyyy-MM-dd'T'HH:mm:ss",
