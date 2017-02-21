@@ -225,6 +225,8 @@ public interface ErrorCode {
 	public static final String Common_BetweenRange="H001130|不许在区间内";
 	public static final String NumberIds_FormatOrNumError="H001131|字符串格式错误且个数不能大于10";
 	public static final String Concat_MobileNum_Check="H001132|手机号验证失败";
+	public static final String CHECK_BALANCE_EXCEPTION="H001133|校验价格接口异常:{0}";
+	public static final String PERMISSIONS_LIMIT="H001134|预付或现付虚拟卡权限限制，请开通权限";
 	// endregion
 
 	// region 搜索 H002001
