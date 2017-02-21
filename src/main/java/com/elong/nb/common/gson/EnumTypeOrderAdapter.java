@@ -53,7 +53,6 @@ private static Logger LocalMsg = LogManager.getLogger(EnumTypeAdapter.class);
 		}
 		String value = json.getAsString();
 		boolean isNumber = NumberUtils.isNumber(value);
-
 		if (!isNumber) {
 			// 普通的枚举处理,
 			Map<String, ?>map=EnumUtils.getEnumMap((Class)typeOfT);
