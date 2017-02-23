@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.alibaba.fastjson.JSON;
 import com.elong.nb.common.model.ErrorCode;
 import com.elong.nb.common.model.RestResponse;
+import com.google.gson.Gson;
 
 /**
  * 全局异常处理
@@ -22,7 +23,7 @@ import com.elong.nb.common.model.RestResponse;
  *
  */
 public class NBHandlerExceptionResolver implements HandlerExceptionResolver {
-
+	private Gson gson=new Gson();
 	/**
 	 * 全局异常记录logger
 	 */
@@ -45,7 +46,7 @@ public class NBHandlerExceptionResolver implements HandlerExceptionResolver {
 		RestResponse restResponse = new RestResponse(errorJson);
 		restResponse.setCode(ErrorCode.Common_UnkownException+ ex.getMessage()+expMessage);
 		ModelAndView exceptionView = new ModelAndView("apierror");
-		errorJson = JSON.toJSONString(restResponse);
+		errorJson = gson.toJson(restResponse);
 		exceptionView.addObject("errorResponse", errorJson);
 		return exceptionView;
 	}
