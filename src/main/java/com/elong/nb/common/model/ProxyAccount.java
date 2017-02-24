@@ -83,6 +83,8 @@ public class ProxyAccount {
 	 * 最低价格利润率，默认0不限制，输入5表示过滤没有5%的利润的价格
 	 */
 	private double LowestProfitPercent;
+	
+	private boolean IsCustomerPriceIntoSalePrice;
 
 	// / 获取代理结算价
 	// / <param name="costPrice">酒店底价</param>
@@ -465,6 +467,24 @@ public class ProxyAccount {
 		IsOnlyStraight = isOnlyStraight;
 	}
 
+	/**   
+	 * 得到isCustomerPriceIntoSalePrice的值   
+	 *   
+	 * @return isCustomerPriceIntoSalePrice的值
+	 */
+	public boolean isIsCustomerPriceIntoSalePrice() {
+		return IsCustomerPriceIntoSalePrice;
+	}
+
+	/**
+	 * 设置isCustomerPriceIntoSalePrice的值
+	 *   
+	 * @param isCustomerPriceIntoSalePrice 被设置的值
+	 */
+	public void setIsCustomerPriceIntoSalePrice(boolean isCustomerPriceIntoSalePrice) {
+		IsCustomerPriceIntoSalePrice = isCustomerPriceIntoSalePrice;
+	}
+	
 	public double getLowestProfitPercent() {
 		return LowestProfitPercent;
 	}
