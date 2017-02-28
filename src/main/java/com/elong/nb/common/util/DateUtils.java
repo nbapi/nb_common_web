@@ -38,7 +38,7 @@ public class DateUtils {
 //		System.out.println(convertDate(date, "yy.MM.dd"));
 //		StringUtils.splitByWholeSeparator(str, separator)
 //		ArrayUtils.
-		System.out.println(Arrays.toString(StringUtils.split("wang,hao ,    ,sdif", ",")));
+		System.out.println(formatDay(new Date()));
 	}
 	public static String convertDate(Date date,String pattern ){
 		SimpleDateFormat df;
@@ -73,7 +73,7 @@ public class DateUtils {
 		gc.set(Calendar.MINUTE, 0);
 		gc.set(Calendar.SECOND, 0);
 		gc.set(Calendar.MILLISECOND, 0);
-		return date1;
+		return gc.getTime();
 	}
 	public static Calendar getCalendar(Date date1){
 		Calendar gc = Calendar.getInstance();
