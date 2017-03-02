@@ -7,12 +7,13 @@ import java.util.Calendar;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.alibaba.fastjson.JSON;
 import com.elong.nb.common.model.ErrorCode;
+import com.elong.nb.common.model.RestRequest;
 import com.elong.nb.common.model.RestResponse;
 import com.google.gson.Gson;
 
@@ -34,17 +35,17 @@ public class NBHandlerExceptionResolver implements HandlerExceptionResolver {
 			HttpServletResponse response, Object handler, Exception ex) {
 		String accept = request.getHeader("Content-Type");
 		String errorJson = "";
-		ByteArrayOutputStream buf = new java.io.ByteArrayOutputStream();
-		ex.printStackTrace(new java.io.PrintWriter(buf, true));
-		String expMessage = buf.toString();
-		try {
-			buf.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		RestResponse restResponse = new RestResponse(errorJson);
-		restResponse.setCode(ErrorCode.Common_UnkownException+ ex.getMessage()+expMessage);
+//		ByteArrayOutputStream buf = new java.io.ByteArrayOutputStream();
+//		ex.printStackTrace(new java.io.PrintWriter(buf, true));
+//		String expMessage = buf.toString();
+//		try {
+//			buf.close();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		RestResponse restResponse = new RestResponse(null);
+		restResponse.setCode("H000997|UnkownException: "+ ex.getMessage());
 		ModelAndView exceptionView = new ModelAndView("apierror");
 		errorJson = gson.toJson(restResponse);
 		exceptionView.addObject("errorResponse", errorJson);
