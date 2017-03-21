@@ -255,6 +255,8 @@ public interface ErrorCode {
 	public static final String Other_MappingDataRequired = "H005003|the mapping data is empty";
 	public static final String Other_MappingDataParseError = "H005004|the mapping data cann't be parsed by JSON.";
 	public static final String Other_MappingDataException = "H005005|{0}";
+	
+	public static final String Payment_AmountBalanceNotEnough="支付失败，账户余额不足";
 	// endregion
 
 	public static final String Unknown = "H099999999|未知错误";
