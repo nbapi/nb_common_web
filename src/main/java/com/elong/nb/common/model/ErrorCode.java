@@ -44,7 +44,7 @@ public interface ErrorCode {
 	public static final String Common_HotelCityIdRequired = "H000007|城市Id不能为空";
 	public static final String Common_IdsFormatWrong = "H000008|Ids不符合数字逗号格式";
 	public static final String Common_IdsMustLestThanTen = "H000009|Ids个数必须小于20个";
-	public static final String Common_NumberIdsFormatErrorAndLessThanTen = "H000010|Ids格式错误且个数必须小于10个";
+	public static final String Common_NumberIdsFormatErrorAndLessThanTen = "H000010|Ids格式错误且个数必须小于等于10个";
 	public static final String Common_PaymentTypeRequired = "H000011|付款类型必须填写";
 	public static final String Common_PaymentTypeInvalid = "H000012|付款类型错误";
 	public static final String Common_StartDateRequired = "H000013|开始时间必须填写";
@@ -63,7 +63,7 @@ public interface ErrorCode {
 
 	public static final String Common_VersionInvalid = "H000024|Version不能为空";
 	public static final String Common_ProxyInfoInvalid = "H000025|企业账户信息不能为空";
-
+	public static final String Common_NumberCodesFormatErrorAndLessThanTen = "H000010|Codes格式错误且个数必须小于等于10个";
 	public static final String Common_UnkownException = "H000997|未知异常: ";
 	public static final String Common_RequesstParameterException = "H000998|请求参数异常";
 	public static final String Common_SystemException = "H100999|系统异常: ";
@@ -256,7 +256,9 @@ public interface ErrorCode {
 	public static final String Other_MappingDataParseError = "H005004|the mapping data cann't be parsed by JSON.";
 	public static final String Other_MappingDataException = "H005005|{0}";
 	
+	//支付错误吗
 	public static final String Payment_AmountBalanceNotEnough="支付失败，账户余额不足";
+	
 	// endregion
 
 	public static final String Unknown = "H099999999|未知错误";

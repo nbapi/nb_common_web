@@ -39,8 +39,8 @@ public class ProxyAccount {
 	// 进行了升级，0~1是之前的老规则；[1,2) 是过渡规则，过渡规则的小数点按老规则校验，但按新规则计算；[2, +*)是新规则校验、计算
 	//2017.2.23后 此字段功能拆分，只做加价率使用。取值范围 0~1
 	private double PrepaySettlementRate;
-	//预付定价模式：1、老定价模式 2、兼容模式 3、新定价模式
-	private int PrepaySettlementRateMode;
+	//预付定价模式：1、老定价模式(默认) 2、兼容模式 3、新定价模式 4、原始底价模式
+	private int PrepaySettlementRateMode=1;
 	// / 是否开通了预付虚拟卡
 	private boolean EnabledVirtualCardForPrepay;
 	// / 是否开通了担保虚拟卡
