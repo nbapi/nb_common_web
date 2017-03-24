@@ -107,7 +107,7 @@ public class GsonUtil {
 		ra.setAttribute(Constants.ELONG_RESPONSE_CODE, resp == null||resp.getCode()==null ? "" : resp.getCode().split("\\|")[0],
 				ServletRequestAttributes.SCOPE_REQUEST);
 		// 增加版本对应的输出设置
-		GsonBuilder gsonBuilder = new GsonBuilder();
+		GsonBuilder gsonBuilder = new GsonBuilder().disableHtmlEscaping();
 		gsonBuilder.registerTypeAdapter(Date.class, new DateTypeAdapter());
 		if (version > 0)
 			gsonBuilder.setVersion(version);
