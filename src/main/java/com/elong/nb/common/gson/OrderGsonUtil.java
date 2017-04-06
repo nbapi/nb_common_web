@@ -6,6 +6,8 @@ import java.lang.reflect.Type;
 import java.util.Date;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
@@ -28,7 +30,14 @@ public class OrderGsonUtil {
 			Class<T> clazz, Map<Class, TypeAdapter> adapters)
 			throws IOException {
 		String json = IOUtils.toString(request.getInputStream(), "utf-8");
-
+		try {
+			Pattern pattern=Pattern.compile("Number\":[a-zA-Z0-9]+,");
+			Matcher matcher=pattern.matcher(json);
+			if(matcher.find()){
+				json=matcher.replaceAll("Number\":\"###\",");
+			}
+		} catch (Exception e) {
+		}
 		RequestAttributes ra = RequestContextHolder.getRequestAttributes();
 		ra.setAttribute(Constants.ELONG_REQUEST_JSON, json == null ? "" : json,
 				ServletRequestAttributes.SCOPE_REQUEST);
