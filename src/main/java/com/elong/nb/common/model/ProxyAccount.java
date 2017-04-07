@@ -60,21 +60,16 @@ public class ProxyAccount {
 	// / 仅使用哪些供应商的库存，用于库存全量接口过滤
 	private String Supplier;
 	// / 创建订单是否有权生成强制担保订单
-	private boolean EnableForcedGuaranteeOrder;
+	private boolean EnableForcedGuaranteeOrder;	//！！！成单在读，可能是expedia在传
 	// / 是否忽略订单内容（入住日期、产品、客人名字等）的疑似重单校验
-	private boolean EnableIgnoreCheckingDuplicatedOrder;
+	private boolean EnableIgnoreCheckingDuplicatedOrder;  //！！！成单在读，可能是expedia在传
 	// / 前台 现付价格是否给结算价(底价)
 	private boolean EnableReturnAgentcyRateCost;
 	// / 客户端IP地址
-	private String ClientIP;
-	// / 是否有团购Coupon权限
-	private boolean EnableGroupCoupon;
-	// / 是否开通了团购虚拟信用卡
-	private boolean EnabledVirtualCardForGroup;
-	private boolean IgnoreCheckGuestName;
+	private String ClientIP;			//!!!特别，网关塞进来的！！
 	private boolean EnabledCommentReadRole;
 	private String CommentUserKey;
-	private Integer MaxDays = 180;// / 搜索、数据、订单使用的日期跨度最大天数
+	private Integer MaxDays = 180;// / 搜索、数据、订单使用的日期跨度最大天数	！！！！！没人传，考虑后期变量化
 
 	private int IntegerPriceType; // 进行整形价格处理类型：0=不处理,1=Round,2=Ceil
 
@@ -86,6 +81,8 @@ public class ProxyAccount {
 	
 	private boolean IsCustomerPriceIntoSalePrice;
 
+	private String ProjectName;
+	
 	// / 获取代理结算价
 	// / <param name="costPrice">酒店底价</param>
 	// / <param name="memberPrice">会员卖价</param>
@@ -403,30 +400,6 @@ public class ProxyAccount {
 		ClientIP = clientIP;
 	}
 
-	public Boolean getEnableGroupCoupon() {
-		return EnableGroupCoupon;
-	}
-
-	public void setEnableGroupCoupon(Boolean enableGroupCoupon) {
-		EnableGroupCoupon = enableGroupCoupon;
-	}
-
-	public Boolean getEnabledVirtualCardForGroup() {
-		return EnabledVirtualCardForGroup;
-	}
-
-	public void setEnabledVirtualCardForGroup(Boolean enabledVirtualCardForGroup) {
-		EnabledVirtualCardForGroup = enabledVirtualCardForGroup;
-	}
-
-	public Boolean getIgnoreCheckGuestName() {
-		return IgnoreCheckGuestName;
-	}
-
-	public void setIgnoreCheckGuestName(Boolean ignoreCheckGuestName) {
-		IgnoreCheckGuestName = ignoreCheckGuestName;
-	}
-
 	public Boolean getEnabledCommentReadRole() {
 		return EnabledCommentReadRole;
 	}
@@ -541,6 +514,14 @@ public class ProxyAccount {
 	 */
 	public void setPrepaySettlementRateMode(int prepaySettlementRateMode) {
 		PrepaySettlementRateMode = prepaySettlementRateMode;
+	}
+
+	public String getProjectName() {
+		return ProjectName;
+	}
+
+	public void setProjectName(String projectName) {
+		ProjectName = projectName;
 	}
 
 }
