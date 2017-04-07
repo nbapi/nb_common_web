@@ -62,7 +62,7 @@ public class GsonUtil {
 			throws IOException {
 		String json = IOUtils.toString(request.getInputStream(), "utf-8");
 		GsonBuilder gsonBuilder = new GsonBuilder();
-		// 添加枚举适配器
+		// 添加枚举适配器，兼容大小写，暂时只用于成单接口，会影响性能
 		gsonBuilder.registerTypeHierarchyAdapter(Enum.class,
 				new EnumTypeOrderAdapter());
 		gsonBuilder.registerTypeAdapter(Date.class, new DateTypeAdapter());
@@ -75,6 +75,7 @@ public class GsonUtil {
 		RestRequest req = gsonBuilder.create().fromJson(json, objectType);
 		
 		try {
+			//隐藏信用卡相关信息
 			Pattern pattern=Pattern.compile("Number\":[a-zA-Z0-9]+,");
 			Matcher matcher=pattern.matcher(json);
 			if(matcher.find()){
