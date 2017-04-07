@@ -83,6 +83,8 @@ public class ProxyAccount {
 
 	private String ProjectName;
 	
+	private String SecondSecretKey;
+	
 	// / 获取代理结算价
 	// / <param name="costPrice">酒店底价</param>
 	// / <param name="memberPrice">会员卖价</param>
@@ -522,6 +524,14 @@ public class ProxyAccount {
 
 	public void setProjectName(String projectName) {
 		ProjectName = projectName;
+	}
+
+	public String getSecondSecretKey() {
+		return SecondSecretKey;
+	}
+
+	public void setSecondSecretKey(String secondSecretKey) {
+		SecondSecretKey = secondSecretKey;
 	}
 
 }
