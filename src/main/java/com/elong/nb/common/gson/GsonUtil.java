@@ -6,6 +6,8 @@ import java.lang.reflect.Type;
 import java.util.Date;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
@@ -46,6 +48,43 @@ public class GsonUtil {
 
 		Type objectType = type(RestRequest.class, clazz);
 		RestRequest req = gsonBuilder.create().fromJson(json, objectType);
+
+		if (req != null && req.getGuid() != null && req.getGuid().length() > 0)
+			ra.setAttribute(Constants.ELONG_REQUEST_REQUESTGUID, req.getGuid(),
+					ServletRequestAttributes.SCOPE_REQUEST);
+
+		return req;
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public static <T> RestRequest<T> toReqAdapter(HttpServletRequest request,
+			Class<T> clazz, Map<Class, TypeAdapter> adapters)
+			throws IOException {
+		String json = IOUtils.toString(request.getInputStream(), "utf-8");
+		GsonBuilder gsonBuilder = new GsonBuilder();
+		// 添加枚举适配器
+		gsonBuilder.registerTypeHierarchyAdapter(Enum.class,
+				new EnumTypeOrderAdapter());
+		gsonBuilder.registerTypeAdapter(Date.class, new DateTypeAdapter());
+		if (adapters != null && !adapters.isEmpty()) {
+			for (Entry<Class, TypeAdapter> e : adapters.entrySet()) {
+				gsonBuilder.registerTypeAdapter(e.getKey(), e.getValue());
+			}
+		}
+		Type objectType = type(RestRequest.class, clazz);
+		RestRequest req = gsonBuilder.create().fromJson(json, objectType);
+		
+		try {
+			Pattern pattern=Pattern.compile("Number\":[a-zA-Z0-9]+,");
+			Matcher matcher=pattern.matcher(json);
+			if(matcher.find()){
+				json=matcher.replaceAll("Number\":\"###\",");
+			}
+		} catch (Exception e) {
+		}
+		RequestAttributes ra = RequestContextHolder.getRequestAttributes();
+		ra.setAttribute(Constants.ELONG_REQUEST_JSON, json == null ? "" : json,
+				ServletRequestAttributes.SCOPE_REQUEST);
 
 		if (req != null && req.getGuid() != null && req.getGuid().length() > 0)
 			ra.setAttribute(Constants.ELONG_REQUEST_REQUESTGUID, req.getGuid(),

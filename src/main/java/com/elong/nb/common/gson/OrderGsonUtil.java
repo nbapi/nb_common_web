@@ -30,18 +30,6 @@ public class OrderGsonUtil {
 			Class<T> clazz, Map<Class, TypeAdapter> adapters)
 			throws IOException {
 		String json = IOUtils.toString(request.getInputStream(), "utf-8");
-		try {
-			Pattern pattern=Pattern.compile("Number\":[a-zA-Z0-9]+,");
-			Matcher matcher=pattern.matcher(json);
-			if(matcher.find()){
-				json=matcher.replaceAll("Number\":\"###\",");
-			}
-		} catch (Exception e) {
-		}
-		RequestAttributes ra = RequestContextHolder.getRequestAttributes();
-		ra.setAttribute(Constants.ELONG_REQUEST_JSON, json == null ? "" : json,
-				ServletRequestAttributes.SCOPE_REQUEST);
-
 		GsonBuilder gsonBuilder = new GsonBuilder();
 		// 添加枚举适配器
 		gsonBuilder.registerTypeHierarchyAdapter(Enum.class,
@@ -55,6 +43,18 @@ public class OrderGsonUtil {
 
 		Type objectType = type(RestRequest.class, clazz);
 		RestRequest req = gsonBuilder.create().fromJson(json, objectType);
+		
+		try {
+			Pattern pattern=Pattern.compile("Number\":[a-zA-Z0-9]+,");
+			Matcher matcher=pattern.matcher(json);
+			if(matcher.find()){
+				json=matcher.replaceAll("Number\":\"###\",");
+			}
+		} catch (Exception e) {
+		}
+		RequestAttributes ra = RequestContextHolder.getRequestAttributes();
+		ra.setAttribute(Constants.ELONG_REQUEST_JSON, json == null ? "" : json,
+				ServletRequestAttributes.SCOPE_REQUEST);
 
 		if (req != null && req.getGuid() != null && req.getGuid().length() > 0)
 			ra.setAttribute(Constants.ELONG_REQUEST_REQUESTGUID, req.getGuid(),
@@ -116,7 +116,7 @@ public class OrderGsonUtil {
 		ra.setAttribute(Constants.ELONG_RESPONSE_CODE, resp == null||resp.getCode()==null ? "" : resp.getCode().split("\\|")[0],
 				ServletRequestAttributes.SCOPE_REQUEST);
 		// 增加版本对应的输出设置
-		GsonBuilder gsonBuilder = new GsonBuilder();
+		GsonBuilder gsonBuilder = new GsonBuilder().disableHtmlEscaping();
 		gsonBuilder.registerTypeAdapter(Date.class, new DateTypeAdapter());
 		if (version > 0)
 			gsonBuilder.setVersion(version);
