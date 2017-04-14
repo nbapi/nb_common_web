@@ -259,6 +259,13 @@ public interface ErrorCode {
 	//支付错误吗
 	public static final String Payment_AmountBalanceNotEnough="支付失败，账户余额不足";
 	
+	//region 信用卡 H006001
+	public static final String CreditCard_DESTimeStampExpired="H006001|DES加密过期－{0}";
+	public static final String CreditCard_DESRuleError="H006002|DES加密规则错误-{0}";
+	public static final String CreditCard_DES2TimeStampExpried="H006003|DES二级加密过期-{0}";
+	public static final String CreditCard_DES2RuleError="H006004|DES二级加密规则错误-{0}";
+	public static final String CreditCard_DES2KeyError="H006005|DES二级加密KEY错误-{0}";
+	public static final String CreditCard_DecryptError="H006006|信用卡解密失败！";
 	// endregion
 
 	public static final String Unknown = "H099999999|未知错误";
