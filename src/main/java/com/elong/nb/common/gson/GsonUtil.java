@@ -94,6 +94,44 @@ public class GsonUtil {
 		return req;
 	}
 	
+	
+	@SuppressWarnings("rawtypes")
+	public static <T> RestRequest<T> toReqJsonAdapter(String json,
+			Class<T> clazz, Map<Class, TypeAdapter> adapters)
+			throws IOException {
+		//String json = IOUtils.toString(request.getInputStream(), "utf-8");
+		GsonBuilder gsonBuilder = new GsonBuilder();
+		// 添加枚举适配器，兼容大小写，暂时只用于成单接口，会影响性能
+		gsonBuilder.registerTypeHierarchyAdapter(Enum.class,
+				new EnumTypeOrderAdapter());
+		gsonBuilder.registerTypeAdapter(Date.class, new DateTypeAdapter());
+		if (adapters != null && !adapters.isEmpty()) {
+			for (Entry<Class, TypeAdapter> e : adapters.entrySet()) {
+				gsonBuilder.registerTypeAdapter(e.getKey(), e.getValue());
+			}
+		}
+		Type objectType = type(RestRequest.class, clazz);
+		RestRequest req = gsonBuilder.create().fromJson(json, objectType);
+		
+		try {
+			//隐藏信用卡相关信息
+			Pattern pattern=Pattern.compile("Number\":[a-zA-Z0-9]+,");
+			Matcher matcher=pattern.matcher(json);
+			if(matcher.find()){
+				json=matcher.replaceAll("Number\":\"###\",");
+			}
+		} catch (Exception e) {
+		}
+		RequestAttributes ra = RequestContextHolder.getRequestAttributes();
+		ra.setAttribute(Constants.ELONG_REQUEST_JSON, json == null ? "" : json,
+				ServletRequestAttributes.SCOPE_REQUEST);
+
+		if (req != null && req.getGuid() != null && req.getGuid().length() > 0)
+			ra.setAttribute(Constants.ELONG_REQUEST_REQUESTGUID, req.getGuid(),
+					ServletRequestAttributes.SCOPE_REQUEST);
+
+		return req;
+	}
 	@SuppressWarnings("rawtypes")
 	public static <T> RestResponse<T> toResponse(String resultJson,
 			Type typeObj, Map<Class, TypeAdapter> adapters)
