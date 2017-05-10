@@ -227,6 +227,7 @@ public interface ErrorCode {
 	public static final String Concat_MobileNum_Check="H001132|手机号验证失败";
 	public static final String CHECK_BALANCE_EXCEPTION="H001133|校验价格接口异常:{0}";
 	public static final String PERMISSIONS_LIMIT="H001134|预付或现付虚拟卡权限限制，请开通权限";
+	public static final String Order_RoomNeedCustomers="H001135|请确保每个房间都有客人信息";
 	// endregion
 
 	// region 搜索 H002001
