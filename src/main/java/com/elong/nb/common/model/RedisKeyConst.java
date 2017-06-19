@@ -144,4 +144,7 @@ public interface RedisKeyConst {
 	public static final String KEY_DISTRICTS_PROVINCE="data.districts.province";
 	//public static final String KEY_DISTRICTS_PROVINCE="data.districts.province.%s";
 	public static final ICacheKey CacheKey_KEY_DISTRICTS_PROVINCE=RedisManager.getCacheKey(KEY_DISTRICTS_PROVINCE);
+	
+	public static final String KEY_EXPEDIA_CURRENCYCODE="data.expedia.currencycode";
+	public static final ICacheKey CacheKey_KEY_EXPEDIA_CURRENCYCODE=RedisManager.getCacheKey(KEY_EXPEDIA_CURRENCYCODE);
 }
