@@ -129,7 +129,7 @@ public interface ErrorCode {
 	public static final String Order_InvoiceRecipientAddressRequired = "H001049|需要开票据的时候，票据收件地址信息必须提供";
 	public static final String Order_InvoiceRecipientNameRequired = "H001050|需要开票据的时候，票据收件联系人必须提供";
 	public static final String Order_InvoiceRecipientPhoneRequired = "H001051|需要开票据的时候，票据收件联系信息必须提供";
-	public static final String Order_InvoiceAmountGraterThanMemberPrice = "H001052|需要开票据的时候，发票金额不能高于会员价";
+	public static final String Order_InvoiceAmountGraterThanMemberPrice = "H001052|需要开票据的时候，发票金额不能高于会员价(Member)总和";
 	public static final String Order_InvoiceNotElong = "H001052|非艺龙开发票,不能提交发票信息";
 	public static final String Order_OrderIdRequired = "H001053|订单号必须填写";
 	public static final String Order_OrderIDError = "H001054|订单ID错误，订单号不存在";
@@ -220,7 +220,7 @@ public interface ErrorCode {
 	public static final String Order_CheckInventory = "H001123|获取库存失败，或者房量不够";
 	public static final String Order_CheckRate = "H001124|获取价格失败，或者价格不可用";
 	public static final String ORDER_FAILBECAUSEOFSEARCH="H001125|搜索接口异常造成成单失败";
-	public static final String Order_CustomperPrice_InvoiceMode="H001126|结算价产品需要给酒店开发票，总卖价必填，且不能高于最低总卖价的50%";
+	public static final String Order_CustomperPrice_InvoiceMode="H001126|结算价产品需要给酒店开发票，CustomerPrice必填，且不能高于总卖价的50%";
 	public static final String Common_MoreMaxLength="H001129|超过最大长度：";
 	public static final String Common_BetweenRange="H001130|不许在区间内";
 	public static final String NumberIds_FormatOrNumError="H001131|字符串格式错误且个数不能大于10";
