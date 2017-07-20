@@ -9,10 +9,10 @@ import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -48,6 +48,9 @@ public class GsonUtil {
 
 		Type objectType = type(RestRequest.class, clazz);
 		RestRequest req = gsonBuilder.create().fromJson(json, objectType);
+		if (req != null && StringUtils.isEmpty(req.getGuid())) {
+			req.setGuid(request.getHeader("guid"));
+		}
 
 		if (req != null && req.getGuid() != null && req.getGuid().length() > 0)
 			ra.setAttribute(Constants.ELONG_REQUEST_REQUESTGUID, req.getGuid(),
