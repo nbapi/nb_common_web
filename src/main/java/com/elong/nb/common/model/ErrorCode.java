@@ -64,6 +64,7 @@ public interface ErrorCode {
 	public static final String Common_VersionInvalid = "H000024|Version不能为空";
 	public static final String Common_ProxyInfoInvalid = "H000025|企业账户信息不能为空";
 	public static final String Common_NumberCodesFormatErrorAndLessThanTen = "H000010|Codes格式错误且个数必须小于等于10个";
+	public static final String Common_ParamInvalid = "H000996|请求参数错误,请检查";
 	public static final String Common_UnkownException = "H000997|未知异常: ";
 	public static final String Common_RequesstParameterException = "H000998|请求参数异常";
 	public static final String Common_SystemException = "H100999|系统异常: ";
