@@ -232,8 +232,8 @@ public interface ErrorCode {
 	public static final String Order_InvoiceITINUnAvailable="H001136|发票识别号非数字字母组合或者长度不满足15、18、20位";
 	
 	
-	public static final String Order_TotalPriceMoreThanMember="H001137-0|TotalPrice高于总卖家的{0}%";
-	public static final String ORDER_TotalPriceMoreThanCost="H001037-1|TotalPrice高于总底价的{0}%";
+	public static final String Order_TotalPriceMoreThanMember="H001137-0|TotalPrice不能高于要求总卖家的{0}%";
+	public static final String ORDER_TotalPriceMoreThanCost="H001037-1|TotalPrice不能高于要求总底价的{0}%";
 	// endregion
 
 	// region 搜索 H002001
