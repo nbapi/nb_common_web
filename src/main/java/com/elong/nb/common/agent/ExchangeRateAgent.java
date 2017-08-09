@@ -44,7 +44,7 @@ public class ExchangeRateAgent {
 
 	private static RedisManager redisManager = RedisManager.getInstance("redis_job", "redis_job");
 
-	private static ExchangeRateCache exchangeRateCache = null;
+	private static ExchangeRateCache exchangeRateCache = new ExchangeRateCache();
 
 	static {
 		long delay = 1;
@@ -52,7 +52,7 @@ public class ExchangeRateAgent {
 		if (!StringUtils.isEmpty(delayStr))
 			delay = Long.parseLong(delayStr);
 
-		ScheduledExecutorService service = Executors.newScheduledThreadPool(10);
+		ScheduledExecutorService service = Executors.newScheduledThreadPool(1);
 		service.scheduleWithFixedDelay(new Runnable() {
 
 			@Override
@@ -79,9 +79,18 @@ public class ExchangeRateAgent {
 	}
 
 	private static boolean checkAndUpdate() {
-		Map<String, String> currencyRateMap = redisManager.hashGetAll(RedisManager.getCacheKey(RedisKeyConst.KEY_CURRENCY));
-		exchangeRateCache = new ExchangeRateCache();
-		return exchangeRateCache.update(currencyRateMap);
+		try {
+			Map<String, String> currencyRateMap = redisManager.hashGetAll(RedisManager.getCacheKey(RedisKeyConst.KEY_CURRENCY));
+			int redisDataCount = currencyRateMap == null ? 0 : currencyRateMap.size();
+			int memoryDataCount = exchangeRateCache.getExchangeRateCount();
+			logger.info("redisDataCount = " + redisDataCount + ",memoryDataCount = " + memoryDataCount);
+			if (redisDataCount == 0)
+				return false;
+			return exchangeRateCache.update(currencyRateMap);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			return false;
+		}
 	}
 
 	private static class ExchangeRateCache {
@@ -99,6 +108,10 @@ public class ExchangeRateAgent {
 				exchangeRateList.add(entry.getValue());
 			}
 			return exchangeRateList;
+		}
+
+		public int getExchangeRateCount() {
+			return exchangeRateCache.size();
 		}
 
 		public boolean update(Map<String, String> currencyRateMap) {
