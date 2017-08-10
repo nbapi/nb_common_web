@@ -120,7 +120,7 @@ public interface ErrorCode {
 	public static final String Order_PrepayOrderCreditCardNoNeed = "H001041|使用已担保或已支付业务，不需要提供信用卡信息";
 	public static final String Order_SelfPayCreditCardnoNeed = "H001042|非担保、非预付订单无需提供信用卡信息";
 
-	public static final String Order_SubmitRepeatORTooFast = "H001043|订单重复或过快提交";
+	public static final String Order_SubmitRepeatORTooFast = "H001043|订单重复或过快提交,Key:{0}";
 	public static final String Order_SubmitOrderFail = "H001044-{0}|下单失败,{1}";
 	public static final String Order_AboutSameOrder = "H001045|疑似重复订单，不进行处理";
 
@@ -164,7 +164,7 @@ public interface ErrorCode {
 	public static final String Order_BaseNightlyRateCostError = "H001079|多天会员价格底价错误";
 	public static final String Order_BaseNightlyRateMemberTooLow = "H001080|多天会员会员价过低";
 	public static final String Order_BaseNightlyRateCostTooLow = "H001081|多天会员结算价过低";
-	public static final String Order_BaseNightlyRateTotalPriceError = "H001082|多天会员总价不一致";
+	public static final String Order_BaseNightlyRateTotalPriceError = "H001082|多天会员总价不一致,应为:{0}";
 
 	public static final String Order_HotelNotInService = "H001083|获取产品信息失败，可能酒店、房型和RatePlan无效或未关联，也可能无对应库存或房价";
 	public static final String Order_ObjectRelationError = "H001083-0|对象关系错误";
