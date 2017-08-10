@@ -276,5 +276,6 @@ public interface ErrorCode {
 	// endregion
 
 	public static final String Unknown = "H099999999|未知错误";
+	public static final String Parameter_SerializationError = "H000996|请求参数错误,请检查";
 	
 }

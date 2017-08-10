@@ -77,7 +77,7 @@ public class HowSwitchUtil {
 		T value = null;
 		try {
 			value = hotSwitchConfigHelper.GetConfigValue(key, clazz);
-		} catch (HotSwitchClientException e) {
+		} catch (Exception e) {
 			logger.error("config center get value error,key = " + key, e);
 		}
 		return value;
@@ -95,14 +95,10 @@ public class HowSwitchUtil {
 		T value = defaultValue;
 		try {
 			value = hotSwitchConfigHelper.GetConfigValue(key, clazz);
-		} catch (HotSwitchClientException e) {
+		} catch (Exception e) {
 			logger.error("config center get value error,key = " + key, e);
 		}
 		return value;
-	}
-	
-	public static void main(String[] args){
-		System.out.println(getValue("rp.from", Integer.class));
 	}
 
 }
