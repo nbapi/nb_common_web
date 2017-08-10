@@ -165,7 +165,6 @@ public interface ErrorCode {
 	public static final String Order_BaseNightlyRateMemberTooLow = "H001080|多天会员会员价过低";
 	public static final String Order_BaseNightlyRateCostTooLow = "H001081|多天会员结算价过低";
 	public static final String Order_BaseNightlyRateTotalPriceError = "H001082|多天会员总价不一致,应为:{0}";
-
 	public static final String Order_HotelNotInService = "H001083|获取产品信息失败，可能酒店、房型和RatePlan无效或未关联，也可能无对应库存或房价";
 	public static final String Order_ObjectRelationError = "H001083-0|对象关系错误";
 	public static final String Order_ObjectStatusInvalid = "H001083-1|对象状态无效";
