@@ -6,7 +6,7 @@
 package com.elong.nb.common.model;
 
 /**
- * (类型功能说明描述)
+ * 添加AbstractWCF类，用于记录调用wcf接口日志
  *
  * <p>
  * 修改历史:											<br>  
