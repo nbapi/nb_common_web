@@ -198,16 +198,20 @@ public class HttpClientUtil {
 	 * @param httpRequestBase
 	 */
 	private static void resetRequestConfig(HttpRequestBase httpRequestBase, NbapiHttpRequest nbapiHttpRequest) {
-		RequestConfig.Builder builder = RequestConfig.copy(defaultRequestConfig);
 		int connectTimeout = nbapiHttpRequest.getConnectTimeout();
+		int socketTimeout = nbapiHttpRequest.getSocketTimeout();
+		int connectionRequestTimeout = nbapiHttpRequest.getConnectionRequestTimeout();
+		// 使用默认超时配置时无需新创建对象
+		if (connectTimeout <= 0 && socketTimeout <= 0 && connectionRequestTimeout <= 0)
+			return;
+
+		RequestConfig.Builder builder = RequestConfig.copy(defaultRequestConfig);
 		if (connectTimeout > 0) {
 			builder = builder.setConnectTimeout(connectTimeout);
 		}
-		int socketTimeout = nbapiHttpRequest.getSocketTimeout();
 		if (socketTimeout > 0) {
 			builder = builder.setSocketTimeout(socketTimeout);
 		}
-		int connectionRequestTimeout = nbapiHttpRequest.getConnectionRequestTimeout();
 		if (connectionRequestTimeout > 0) {
 			builder = builder.setConnectionRequestTimeout(connectionRequestTimeout);
 		}
@@ -237,7 +241,9 @@ public class HttpClientUtil {
 			int status = statusLine == null ? 0 : statusLine.getStatusCode();
 			HttpEntity entity = response.getEntity();
 			if (status >= 200 && status < 300) {
-				return entity != null ? EntityUtils.toString(entity) : StringUtils.EMPTY;
+				String reponseBody = entity != null ? EntityUtils.toString(entity) : StringUtils.EMPTY;
+				EntityUtils.consume(entity);
+				return reponseBody;
 			} else {
 				EntityUtils.consume(entity);
 				throw new ClientProtocolException("Unexpected response status: " + status);
