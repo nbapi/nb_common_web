@@ -42,7 +42,7 @@ public class ExchangeRateAgent {
 
 	private static final Log logger = LogFactory.getLog(ExchangeRateAgent.class);
 
-	private static RedisManager redisManager = RedisManager.getInstance("redis_job", "redis_job");
+	private static RedisManager redisManager = RedisManager.getInstance("redis_shared", "redis_shared");
 
 	private static ExchangeRateCache exchangeRateCache = new ExchangeRateCache();
 
