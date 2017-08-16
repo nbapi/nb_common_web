@@ -70,6 +70,18 @@ public class ExchangeRateAgent {
 			throw new RuntimeException("Exchangerate cache init failed!");
 	}
 
+	public static Double getExchangeRate(String currencyCodeStr) {
+		if (StringUtils.isEmpty(currencyCodeStr)) {
+			throw new IllegalArgumentException("the parameter[currencyCodeStr] must not be null or empty.");
+		}
+		EnumCurrencyCode currencyCode = EnumCurrencyCode.forValue(currencyCodeStr);
+		if (currencyCode == null) {
+			throw new IllegalArgumentException("error parameter[currencyCodeStr] = " + currencyCodeStr
+					+ ",please see the enum[EnumCurrencyCode].");
+		}
+		return getExchangeRate(currencyCode);
+	}
+
 	public static Double getExchangeRate(EnumCurrencyCode currencyCode) {
 		return exchangeRateCache.getExchangeRate(currencyCode);
 	}

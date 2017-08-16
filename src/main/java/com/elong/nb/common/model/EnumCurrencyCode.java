@@ -4,8 +4,7 @@ package com.elong.nb.common.model;
  货币枚举
  
 */
-public enum EnumCurrencyCode
-{
+public enum EnumCurrencyCode {
 	/** 
 	 RMB
 	 
@@ -780,31 +779,26 @@ public enum EnumCurrencyCode
 	*/
 	ZWD(128);
 
-
 	private int intValue;
-	private static java.util.HashMap<Integer, EnumCurrencyCode> mappings;
-	private synchronized static java.util.HashMap<Integer, EnumCurrencyCode> getMappings()
-	{
-		if (mappings == null)
-		{
-			mappings = new java.util.HashMap<Integer, EnumCurrencyCode>();
+	private static java.util.HashMap<String, EnumCurrencyCode> mappings;
+
+	private synchronized static java.util.HashMap<String, EnumCurrencyCode> getMappings() {
+		if (mappings == null) {
+			mappings = new java.util.HashMap<String, EnumCurrencyCode>();
 		}
 		return mappings;
 	}
 
-	private EnumCurrencyCode(int value)
-	{
+	private EnumCurrencyCode(int value) {
 		intValue = value;
-		EnumCurrencyCode.getMappings().put(value, this);
+		EnumCurrencyCode.getMappings().put(this.toString(), this);
 	}
 
-	public int getValue()
-	{
+	public int getValue() {
 		return intValue;
 	}
 
-	public static EnumCurrencyCode forValue(int value)
-	{
-		return getMappings().get(value);
+	public static EnumCurrencyCode forValue(String strValue) {
+		return getMappings().get(strValue);
 	}
 }
