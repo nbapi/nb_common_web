@@ -6,20 +6,15 @@ public enum EnumOrderType
 	ProxyId(1);
 
 	private int intValue;
-	private static java.util.HashMap<Integer, EnumOrderType> mappings;
-	private synchronized static java.util.HashMap<Integer, EnumOrderType> getMappings()
-	{
-		if (mappings == null)
-		{
-			mappings = new java.util.HashMap<Integer, EnumOrderType>();
-		}
-		return mappings;
+	private static java.util.HashMap<Integer, EnumOrderType> mappings = new java.util.HashMap<Integer, EnumOrderType>();
+	static {
+		mappings.put(0, EnumOrderType.OrderFrom);
+		mappings.put(1, EnumOrderType.ProxyId);
 	}
 
 	private EnumOrderType(int value)
 	{
 		intValue = value;
-		EnumOrderType.getMappings().put(value, this);
 	}
 
 	public int getValue()
@@ -29,6 +24,6 @@ public enum EnumOrderType
 
 	public static EnumOrderType forValue(int value)
 	{
-		return getMappings().get(value);
+		return mappings.get(value);
 	}
 }

@@ -7,20 +7,16 @@ public enum EnumOrderContactType
 	Proxy(2);
 
 	private int intValue;
-	private static java.util.HashMap<Integer, EnumOrderContactType> mappings;
-	private synchronized static java.util.HashMap<Integer, EnumOrderContactType> getMappings()
-	{
-		if (mappings == null)
-		{
-			mappings = new java.util.HashMap<Integer, EnumOrderContactType>();
-		}
-		return mappings;
+	private static java.util.HashMap<Integer, EnumOrderContactType> mappings = new java.util.HashMap<Integer, EnumOrderContactType>();
+	static{
+		mappings.put(0, EnumOrderContactType.NoNeed);
+		mappings.put(1, EnumOrderContactType.Customer);
+		mappings.put(2, EnumOrderContactType.Proxy);
 	}
 
 	private EnumOrderContactType(int value)
 	{
 		intValue = value;
-		EnumOrderContactType.getMappings().put(value, this);
 	}
 
 	public int getValue()
@@ -30,6 +26,6 @@ public enum EnumOrderContactType
 
 	public static EnumOrderContactType forValue(int value)
 	{
-		return getMappings().get(value);
+		return mappings.get(value);
 	}
 }

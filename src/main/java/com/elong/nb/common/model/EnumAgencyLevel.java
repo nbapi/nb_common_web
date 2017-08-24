@@ -56,18 +56,12 @@ public enum EnumAgencyLevel {
 	 *
 	 * java.util.HashMap<Integer,EnumAgencyLevel> EnumAgencyLevel.java mappings
 	 */
-	private static java.util.HashMap<Integer, EnumAgencyLevel> mappings;
-
-	/** 
-	 * 获取存放枚举map
-	 *
-	 * @return
-	 */
-	private synchronized static java.util.HashMap<Integer, EnumAgencyLevel> getMappings() {
-		if (mappings == null) {
-			mappings = new java.util.HashMap<Integer, EnumAgencyLevel>();
-		}
-		return mappings;
+	private static java.util.HashMap<Integer, EnumAgencyLevel> mappings = new java.util.HashMap<Integer, EnumAgencyLevel>();
+	static{
+		mappings.put(3, EnumAgencyLevel.LOW);
+		mappings.put(2, EnumAgencyLevel.MIDDLE);
+		mappings.put(1, EnumAgencyLevel.HIGH);
+		mappings.put(0, EnumAgencyLevel.NOLIMIT);
 	}
 
 	/**   
@@ -77,7 +71,6 @@ public enum EnumAgencyLevel {
 	 */
 	private EnumAgencyLevel(int value) {
 		intValue = value;
-		EnumAgencyLevel.getMappings().put(value, this);
 	}
 
 	/** 
@@ -96,7 +89,7 @@ public enum EnumAgencyLevel {
 	 * @return
 	 */
 	public static EnumAgencyLevel forValue(int value) {
-		return getMappings().get(value);
+		return mappings.get(value);
 	}
 
 }

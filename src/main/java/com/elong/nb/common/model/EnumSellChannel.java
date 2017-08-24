@@ -25,20 +25,28 @@ package com.elong.nb.common.model;
 		O(32768);
 
 		private int intValue;
-		private static java.util.HashMap<Integer, EnumSellChannel> mappings;
-		private synchronized static java.util.HashMap<Integer, EnumSellChannel> getMappings()
-		{
-			if (mappings == null)
-			{
-				mappings = new java.util.HashMap<Integer, EnumSellChannel>();
-			}
-			return mappings;
+		private static java.util.HashMap<Integer, EnumSellChannel> mappings = new java.util.HashMap<Integer, EnumSellChannel>();
+		static {
+			mappings.put(2, EnumSellChannel.A);
+			mappings.put(4, EnumSellChannel.B);
+			mappings.put(8, EnumSellChannel.C);
+			mappings.put(16, EnumSellChannel.D);
+			mappings.put(32, EnumSellChannel.E);
+			mappings.put(64, EnumSellChannel.F);
+			mappings.put(128, EnumSellChannel.G);
+			mappings.put(256, EnumSellChannel.H);
+			mappings.put(512, EnumSellChannel.I);
+			mappings.put(1024, EnumSellChannel.J);
+			mappings.put(2048, EnumSellChannel.K);
+			mappings.put(4096, EnumSellChannel.L);
+			mappings.put(8192, EnumSellChannel.M);
+			mappings.put(16384, EnumSellChannel.N);
+			mappings.put(32768, EnumSellChannel.O);
 		}
 
 		private EnumSellChannel(int value)
 		{
 			intValue = value;
-			EnumSellChannel.getMappings().put(value, this);
 		}
 
 		public int getValue()
@@ -48,8 +56,8 @@ package com.elong.nb.common.model;
 
 		public static EnumSellChannel forValue(int value)
 		{
-			if(getMappings().containsKey(value)){
-				return getMappings().get(value);
+			if(mappings.containsKey(value)){
+				return mappings.get(value);
 			}else{
 				return A;
 			}

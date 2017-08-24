@@ -23,20 +23,17 @@ public enum EnumMemberLevel
 	*/
 	SVIP(4);
 	private int intValue;
-	private static java.util.HashMap<Integer, EnumMemberLevel> mappings;
-	private synchronized static java.util.HashMap<Integer, EnumMemberLevel> getMappings()
-	{
-		if (mappings == null)
-		{
-			mappings = new java.util.HashMap<Integer, EnumMemberLevel>();
-		}
-		return mappings;
+	private static java.util.HashMap<Integer, EnumMemberLevel> mappings = new java.util.HashMap<Integer, EnumMemberLevel>();
+	static{
+		mappings.put(1, EnumMemberLevel.Normal);
+		mappings.put(2, EnumMemberLevel.VIP);
+		mappings.put(3, EnumMemberLevel.LONGCUI);
+		mappings.put(4, EnumMemberLevel.SVIP);
 	}
 
 	private EnumMemberLevel(int value)
 	{
 		intValue = value;
-		EnumMemberLevel.getMappings().put(value, this);
 	}
 
 	public int getValue()
@@ -46,6 +43,6 @@ public enum EnumMemberLevel
 
 	public static EnumMemberLevel forValue(int value)
 	{
-		return getMappings().get(value);
+		return mappings.get(value);
 	}
 }

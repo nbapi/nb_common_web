@@ -43,20 +43,19 @@ public enum EnumBookingChannel
 	API(64);
 
 	private int intValue;
-	private static java.util.HashMap<Integer, EnumBookingChannel> mappings;
-	private synchronized static java.util.HashMap<Integer, EnumBookingChannel> getMappings()
-	{
-		if (mappings == null)
-		{
-			mappings = new java.util.HashMap<Integer, EnumBookingChannel>();
-		}
-		return mappings;
+	private static java.util.HashMap<Integer, EnumBookingChannel> mappings = new java.util.HashMap<Integer, EnumBookingChannel>();
+	static {
+		mappings.put(2, EnumBookingChannel.OnLine);
+		mappings.put(4, EnumBookingChannel.OffLine);
+		mappings.put(8, EnumBookingChannel.Point);
+		mappings.put(16, EnumBookingChannel.Mobile);
+		mappings.put(32, EnumBookingChannel.SEM);
+		mappings.put(64, EnumBookingChannel.API);
 	}
 
 	private EnumBookingChannel(int value)
 	{
 		intValue = value;
-		EnumBookingChannel.getMappings().put(value, this);
 	}
 
 	public int getValue()
@@ -66,8 +65,8 @@ public enum EnumBookingChannel
 
 	public static EnumBookingChannel forValue(int value)
 	{
-		if(getMappings().containsKey(value)){
-			return getMappings().get(value);
+		if(mappings.containsKey(value)){
+			return mappings.get(value);
 		}else{
 			return OnLine;
 		}

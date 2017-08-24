@@ -56,18 +56,13 @@ public enum EnumPrepayLevel {
 	 *
 	 * java.util.HashMap<Integer,EnumAgencyLevel> EnumAgencyLevel.java mappings
 	 */
-	private static java.util.HashMap<Integer, EnumPrepayLevel> mappings;
+	private static java.util.HashMap<Integer, EnumPrepayLevel> mappings = new java.util.HashMap<Integer, EnumPrepayLevel>();
 
-	/** 
-	 * 获取存放枚举map
-	 *
-	 * @return
-	 */
-	private synchronized static java.util.HashMap<Integer, EnumPrepayLevel> getMappings() {
-		if (mappings == null) {
-			mappings = new java.util.HashMap<Integer, EnumPrepayLevel>();
-		}
-		return mappings;
+	static{
+		mappings.put(3, EnumPrepayLevel.LOW);
+		mappings.put(2, EnumPrepayLevel.MIDDLE);
+		mappings.put(1, EnumPrepayLevel.HIGH);
+		mappings.put(0, EnumPrepayLevel.NOLIMIT);
 	}
 
 	/**   
@@ -77,7 +72,6 @@ public enum EnumPrepayLevel {
 	 */
 	private EnumPrepayLevel(int value) {
 		intValue = value;
-		EnumPrepayLevel.getMappings().put(value, this);
 	}
 
 	/** 
@@ -96,7 +90,7 @@ public enum EnumPrepayLevel {
 	 * @return
 	 */
 	public static EnumPrepayLevel forValue(int value) {
-		return getMappings().get(value);
+		return mappings.get(value);
 	}
 
 }
