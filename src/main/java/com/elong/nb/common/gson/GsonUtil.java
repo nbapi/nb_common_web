@@ -76,7 +76,9 @@ public class GsonUtil {
 		}
 		Type objectType = type(RestRequest.class, clazz);
 		RestRequest req = gsonBuilder.create().fromJson(json, objectType);
-		
+		if (req != null && StringUtils.isEmpty(req.getGuid())) {
+			req.setGuid(request.getHeader("guid"));
+		}
 		try {
 			//隐藏信用卡相关信息
 			Pattern pattern=Pattern.compile("Number\":[a-zA-Z0-9]+,");
@@ -87,6 +89,7 @@ public class GsonUtil {
 		} catch (Exception e) {
 		}
 		RequestAttributes ra = RequestContextHolder.getRequestAttributes();
+		
 		ra.setAttribute(Constants.ELONG_REQUEST_JSON, json == null ? "" : json,
 				ServletRequestAttributes.SCOPE_REQUEST);
 
@@ -99,7 +102,7 @@ public class GsonUtil {
 	
 	
 	@SuppressWarnings("rawtypes")
-	public static <T> RestRequest<T> toReqJsonAdapter(String json,
+	public static <T> RestRequest<T> toReqJsonAdapter(HttpServletRequest request,String json,
 			Class<T> clazz, Map<Class, TypeAdapter> adapters)
 			throws IOException {
 		//String json = IOUtils.toString(request.getInputStream(), "utf-8");
@@ -115,7 +118,9 @@ public class GsonUtil {
 		}
 		Type objectType = type(RestRequest.class, clazz);
 		RestRequest req = gsonBuilder.create().fromJson(json, objectType);
-		
+		if (req != null && StringUtils.isEmpty(req.getGuid())) {
+			req.setGuid(request.getHeader("guid"));
+		}
 		try {
 			//隐藏信用卡相关信息
 			Pattern pattern=Pattern.compile("Number\":[a-zA-Z0-9]+,");
