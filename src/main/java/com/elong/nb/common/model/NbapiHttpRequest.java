@@ -19,6 +19,13 @@ public class NbapiHttpRequest {
 	private String paramStr;
 
 	/** 
+	 * contentType
+	 *
+	 * String NbapiHttpRequest.java contentType
+	 */
+	private String contentType;
+
+	/** 
 	 * 请求参数-form方式
 	 *
 	 * Map<String,Object> NbapiHttpRequest.java paramsMap
@@ -152,6 +159,24 @@ public class NbapiHttpRequest {
 	 */
 	public void setConnectionRequestTimeout(int connectionRequestTimeout) {
 		this.connectionRequestTimeout = connectionRequestTimeout;
+	}
+
+	/**   
+	 * 得到contentType的值   
+	 *   
+	 * @return contentType的值
+	 */
+	public String getContentType() {
+		return contentType;
+	}
+
+	/**
+	 * 设置contentType的值
+	 *   
+	 * @param contentType 被设置的值
+	 */
+	public void setContentType(String contentType) {
+		this.contentType = contentType;
 	}
 
 }

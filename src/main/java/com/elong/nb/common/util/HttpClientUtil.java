@@ -10,7 +10,10 @@ import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.CodingErrorAction;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -43,6 +46,7 @@ import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
+import com.alibaba.fastjson.JSON;
 import com.elong.nb.common.model.NbapiHttpRequest;
 
 /**
@@ -85,6 +89,10 @@ public class HttpClientUtil {
 			throw new IllegalArgumentException("uri = " + url + ",error = " + e.getMessage());
 		}
 		HttpPost httpPost = new HttpPost(uri);
+		String contentType = nbapiHttpRequest.getContentType();
+		if(StringUtils.isNoneEmpty(contentType)){
+			httpPost.addHeader("Content-Type", contentType);
+		}
 		httpPost.setEntity(new StringEntity(nbapiHttpRequest.getParamStr(), "UTF-8"));
 		resetRequestConfig(httpPost, nbapiHttpRequest);
 		return httpRequest(httpPost);
@@ -253,10 +261,17 @@ public class HttpClientUtil {
 
 	public static void main(String[] args) {
 		NbapiHttpRequest nbapiHttpRequest = new NbapiHttpRequest();
-		String reqUrl = "http://10.39.34.25:8965/api/Hotel/GetLastId";
-		String reqData = "{\"hotelId\":12}";
+		String reqUrl = "http://jhorderapinb.vip.elong.com:8314/data/getBriefOrdersByTimestamp";
 		nbapiHttpRequest.setUrl(reqUrl);
-		nbapiHttpRequest.setParamStr(reqData);
+		nbapiHttpRequest.setContentType("application/json");
+
+		Date now = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+		String startTimestamp = sdf.format(now);
+		Map<String, Object> reqParams = new HashMap<String, Object>();
+		reqParams.put("startTimestamp", startTimestamp);
+		reqParams.put("endTimestamp", startTimestamp);
+		nbapiHttpRequest.setParamStr(JSON.toJSONString(reqParams));
 		String responseBody = HttpClientUtil.httpJsonPost(nbapiHttpRequest);
 		System.out.println(responseBody);
 	}
