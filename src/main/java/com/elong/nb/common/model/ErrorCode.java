@@ -170,8 +170,8 @@ public interface ErrorCode {
 	public static final String Order_ObjectStatusInvalid = "H001083-1|对象状态无效";
 
 	public static final String Order_TotalPriceInvalid = "H001084|总价错误,应该为";
-	public static final String Order_TotalPriceInvalid0="H001084-0|总价(TotalPrice)错误，应该不小于卖家:{0}";
-	public static final String Order_TotalPriceInvalid1="H001084-1|总价(TotalPrice)错误，应该不大于卖家:{0}";
+	public static final String Order_TotalPriceInvalid0="H001084-0|总价(TotalPrice)错误，应该不小于卖价:{0}";
+	public static final String Order_TotalPriceInvalid1="H001084-1|总价(TotalPrice)错误，应该不大于卖价:{0}";
 	public static final String Order_TotalPriceInvalid2="H001084-2|总价(TotalPrice)错误，应该不小于结算价:{0}";
 
 	public static final String Order_SubmitOrderException = "H001085|底层提交订单异常";
