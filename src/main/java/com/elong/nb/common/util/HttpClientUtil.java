@@ -7,8 +7,10 @@ package com.elong.nb.common.util;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.charset.CodingErrorAction;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -80,17 +82,10 @@ public class HttpClientUtil {
 	 * @return
 	 */
 	public static String httpJsonPost(NbapiHttpRequest nbapiHttpRequest) {
-		String url = nbapiHttpRequest.getUrl();
-		URI uri = null;
-		try {
-			uri = new URI(url);
-		} catch (URISyntaxException e) {
-			logger.error(e.getMessage(), e);
-			throw new IllegalArgumentException("uri = " + url + ",error = " + e.getMessage());
-		}
+		URI uri = buildURI(nbapiHttpRequest.getUrl());
 		HttpPost httpPost = new HttpPost(uri);
 		String contentType = nbapiHttpRequest.getContentType();
-		if(StringUtils.isNoneEmpty(contentType)){
+		if (StringUtils.isNoneEmpty(contentType)) {
 			httpPost.addHeader("Content-Type", contentType);
 		}
 		httpPost.setEntity(new StringEntity(nbapiHttpRequest.getParamStr(), "UTF-8"));
@@ -105,14 +100,7 @@ public class HttpClientUtil {
 	 * @return
 	 */
 	public static String httpFormPost(NbapiHttpRequest nbapiHttpRequest) {
-		String url = nbapiHttpRequest.getUrl();
-		URI uri = null;
-		try {
-			uri = new URI(url);
-		} catch (URISyntaxException e) {
-			logger.error(e.getMessage(), e);
-			throw new IllegalArgumentException("url = " + url + ",error = " + e.getMessage());
-		}
+		URI uri = buildURI(nbapiHttpRequest.getUrl());
 		HttpPost httpPost = new HttpPost(uri);
 		List<NameValuePair> nvps = new ArrayList<NameValuePair>();
 		Map<String, Object> paramsMap = nbapiHttpRequest.getParamsMap();
@@ -138,14 +126,7 @@ public class HttpClientUtil {
 	 * @return
 	 */
 	public static String httpGet(NbapiHttpRequest nbapiHttpRequest) {
-		String url = nbapiHttpRequest.getUrl();
-		URI uri = null;
-		try {
-			uri = new URI(url);
-		} catch (URISyntaxException e) {
-			logger.error(e.getMessage(), e);
-			throw new IllegalArgumentException("url = " + url + ",error = " + e.getMessage());
-		}
+		URI uri = buildURI(nbapiHttpRequest.getUrl());
 		HttpGet httpGet = new HttpGet(uri);
 		resetRequestConfig(httpGet, nbapiHttpRequest);
 		return httpRequest(httpGet);
@@ -167,6 +148,30 @@ public class HttpClientUtil {
 		}
 		logger.info("use time = " + (System.currentTimeMillis() - startTime) + "ms");
 		return responseBody;
+	}
+
+	/** 
+	 * 构建uri 
+	 *
+	 * @param urlstr
+	 * @return
+	 */
+	private static URI buildURI(String urlstr) {
+		URL url = null;
+		try {
+			url = new URL(urlstr);
+		} catch (MalformedURLException e) {
+			logger.error(e.getMessage(), e);
+			throw new IllegalArgumentException("url = " + url + ",error = " + e.getMessage());
+		}
+		URI uri = null;
+		try {
+			uri = new URI(url.getProtocol(), url.getHost() + ":" + url.getPort(), url.getPath(), url.getQuery(), null);
+		} catch (URISyntaxException e) {
+			logger.error(e.getMessage(), e);
+			throw new IllegalArgumentException("uri = " + url + ",error = " + e.getMessage());
+		}
+		return uri;
 	}
 
 	/** 
