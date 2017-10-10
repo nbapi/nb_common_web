@@ -50,21 +50,6 @@ public interface RedisKeyConst {
 	public static final String KEY_Proxy_CardNo_OrderFrom = "Proxy.CardNo.OrderFrom.{0}";
 
 	// nb_job_rule
-	public static final String BLACK_LIST_HOTEL_CODE_REDIS_PREFIX = "instant.new.black.%s";
-
-	public static final String BLACK_LIST_RULE_REDIS_PREFIX = "instant.new.blacklist.rules";
-	public static final ICacheKey CacheKey_BLACK_LIST_RULE_REDIS_PREFIX = RedisManager.getCacheKey(BLACK_LIST_RULE_REDIS_PREFIX);
-
-	public static final String BLACK_LIST_LAST_UPDATE_TIME = "instant.new.blacklist.lastupdatetime";
-	public static final ICacheKey CacheKey_BLACK_LIST_LAST_UPDATE_TIME = RedisManager.getCacheKey(BLACK_LIST_LAST_UPDATE_TIME);
-
-	public static final String BBLACK_LIST_LAST_UPDATE_TIME = "inv.new.blacklist.lastupdate";
-	public static final ICacheKey CacheKey_BBLACK_LIST_LAST_UPDATE_TIME = RedisManager.getCacheKey(BBLACK_LIST_LAST_UPDATE_TIME);
-
-	public static final String INV_BLACK_LIST_REDIS_PREFIX = "inv.new.blacklist.%s";
-
-	public static final String INV_BLACK_LIST_IDS_REDIS_PREFIX = "inv.new.blacklist.ids";
-	public static final ICacheKey CacheKey_INV_BLACK_LIST_IDS_REDIS_PREFIX = RedisManager.getCacheKey(INV_BLACK_LIST_IDS_REDIS_PREFIX);
 
 	// nb_job_data
 	public static final String KEY_IncrSyncHotelMSCache_LastID = "data.hotel.relation.lastId";
@@ -127,12 +112,6 @@ public interface RedisKeyConst {
 	
 	public static final String KEY_OPENAPI_APPSERVER_CONFIG="openapi.appserver.config";
 	public static final ICacheKey CacheKey_KEY_OPENAPI_APPSERVER_CONFIG = RedisManager.getCacheKey(KEY_OPENAPI_APPSERVER_CONFIG);
-	
-	public static final String KEY_CommisionLevel_Version="commisionlevel.version";
-	public static final ICacheKey CacheKey_KEY_CommisionLevel_Version = RedisManager.getCacheKey(KEY_CommisionLevel_Version);
-	
-	public static final String KEY_HotelCodeBlackList="hotelcode.blacklist";
-	public static final ICacheKey CacheKey_KEY_HotelCodeBlackList = RedisManager.getCacheKey(KEY_HotelCodeBlackList);
 	
 	public static final String KEY_KAOrBuyoutList="ka.buyout.list.%s";
 	//public static final ICacheKey CacheKey_KEY_PAOrBuyoutList = RedisManager.getCacheKey(KEY_PAOrBuyoutList);
