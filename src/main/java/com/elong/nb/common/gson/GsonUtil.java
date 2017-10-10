@@ -17,7 +17,7 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.elong.nb.common.biglog.Constants;
+import com.elong.nb.common.checklist.Constants;
 import com.elong.nb.common.model.RestRequest;
 import com.elong.nb.common.model.RestResponse;
 import com.google.gson.GsonBuilder;
@@ -25,7 +25,7 @@ import com.google.gson.TypeAdapter;
 
 public class GsonUtil {
 
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({"rawtypes", "unchecked"})
 	public static <T> RestRequest<T> toReq(HttpServletRequest request,
 			Class<T> clazz, Map<Class, TypeAdapter> adapters)
 			throws IOException {
@@ -55,53 +55,15 @@ public class GsonUtil {
 		if (req != null && req.getGuid() != null && req.getGuid().length() > 0)
 			ra.setAttribute(Constants.ELONG_REQUEST_REQUESTGUID, req.getGuid(),
 					ServletRequestAttributes.SCOPE_REQUEST);
+		//添加userName
+		if(request!=null&&StringUtils.isNotBlank(request.getHeader("userName"))){
+			ra.setAttribute(Constants.ELONG_REQUEST_USERNAME, request.getHeader("userName"), ServletRequestAttributes.SCOPE_REQUEST);
+		}
 
 		return req;
 	}
 	
-	@SuppressWarnings("rawtypes")
-	public static <T> RestRequest<T> toReqAdapter(HttpServletRequest request,
-			Class<T> clazz, Map<Class, TypeAdapter> adapters)
-			throws IOException {
-		String json = IOUtils.toString(request.getInputStream(), "utf-8");
-		GsonBuilder gsonBuilder = new GsonBuilder();
-		// 添加枚举适配器，兼容大小写，暂时只用于成单接口，会影响性能
-		gsonBuilder.registerTypeHierarchyAdapter(Enum.class,
-				new EnumTypeOrderAdapter());
-		gsonBuilder.registerTypeAdapter(Date.class, new DateTypeAdapter());
-		if (adapters != null && !adapters.isEmpty()) {
-			for (Entry<Class, TypeAdapter> e : adapters.entrySet()) {
-				gsonBuilder.registerTypeAdapter(e.getKey(), e.getValue());
-			}
-		}
-		Type objectType = type(RestRequest.class, clazz);
-		RestRequest req = gsonBuilder.create().fromJson(json, objectType);
-		if (req != null && StringUtils.isEmpty(req.getGuid())) {
-			req.setGuid(request.getHeader("guid"));
-		}
-		try {
-			//隐藏信用卡相关信息
-			Pattern pattern=Pattern.compile("Number\":[a-zA-Z0-9]+,");
-			Matcher matcher=pattern.matcher(json);
-			if(matcher.find()){
-				json=matcher.replaceAll("Number\":\"###\",");
-			}
-		} catch (Exception e) {
-		}
-		RequestAttributes ra = RequestContextHolder.getRequestAttributes();
-		
-		ra.setAttribute(Constants.ELONG_REQUEST_JSON, json == null ? "" : json,
-				ServletRequestAttributes.SCOPE_REQUEST);
-
-		if (req != null && req.getGuid() != null && req.getGuid().length() > 0)
-			ra.setAttribute(Constants.ELONG_REQUEST_REQUESTGUID, req.getGuid(),
-					ServletRequestAttributes.SCOPE_REQUEST);
-
-		return req;
-	}
-	
-	
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({"rawtypes", "unchecked"})
 	public static <T> RestRequest<T> toReqJsonAdapter(HttpServletRequest request,String json,
 			Class<T> clazz, Map<Class, TypeAdapter> adapters)
 			throws IOException {
@@ -121,15 +83,6 @@ public class GsonUtil {
 		if (req != null && StringUtils.isEmpty(req.getGuid())) {
 			req.setGuid(request.getHeader("guid"));
 		}
-		try {
-			//隐藏信用卡相关信息
-			Pattern pattern=Pattern.compile("Number\":[a-zA-Z0-9]+,");
-			Matcher matcher=pattern.matcher(json);
-			if(matcher.find()){
-				json=matcher.replaceAll("Number\":\"###\",");
-			}
-		} catch (Exception e) {
-		}
 		RequestAttributes ra = RequestContextHolder.getRequestAttributes();
 		ra.setAttribute(Constants.ELONG_REQUEST_JSON, json == null ? "" : json,
 				ServletRequestAttributes.SCOPE_REQUEST);
@@ -137,6 +90,10 @@ public class GsonUtil {
 		if (req != null && req.getGuid() != null && req.getGuid().length() > 0)
 			ra.setAttribute(Constants.ELONG_REQUEST_REQUESTGUID, req.getGuid(),
 					ServletRequestAttributes.SCOPE_REQUEST);
+		//添加userName
+		if(request!=null&&StringUtils.isNotBlank(request.getHeader("userName"))){
+			ra.setAttribute(Constants.ELONG_REQUEST_USERNAME, request.getHeader("userName"), ServletRequestAttributes.SCOPE_REQUEST);
+		}
 
 		return req;
 	}
@@ -145,10 +102,6 @@ public class GsonUtil {
 			Type typeObj, Map<Class, TypeAdapter> adapters)
 			throws IOException {
 		String json = resultJson;
-
-		//RequestAttributes ra = RequestContextHolder.getRequestAttributes();
-		//ra.setAttribute(Constants.ELONG_REQUEST_JSON, json == null ? "" : json,
-		//		ServletResponseAttributes.SCOPE_REQUEST);
 
 		GsonBuilder gsonBuilder = new GsonBuilder();
 		// 添加枚举适配器
@@ -160,14 +113,7 @@ public class GsonUtil {
 				gsonBuilder.registerTypeAdapter(e.getKey(), e.getValue());
 			}
 		}
-
-		//Type objectType = type(RestResponse.class, clazz);
 		RestResponse res = gsonBuilder.create().fromJson(json, typeObj);
-
-		//if (res != null && res.getGuid() != null && res.getGuid().length() > 0)
-		//	ra.setAttribute(Constants.ELONG_REQUEST_REQUESTGUID, req.getGuid(),
-		//			ServletRequestAttributes.SCOPE_REQUEST);
-
 		return res;
 	}
 

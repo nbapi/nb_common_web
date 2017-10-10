@@ -27,8 +27,6 @@ public class ValidateUtil {
 			sb.append(ErrorCode.Common_VersionInvalid);
 		if (req.getRequest() == null)
 			sb.append(ErrorCode.Common_DataRequired);
-		if (req.getProxyInfo() == null)
-			sb.append(ErrorCode.Common_ProxyInfoInvalid);
 		if (StringUtils.isBlank(req.getGuid()))
 			sb.append(ErrorCode.Common_GUIDRequired);
 		return sb.toString();
