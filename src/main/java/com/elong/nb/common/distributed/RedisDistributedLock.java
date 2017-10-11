@@ -46,16 +46,16 @@ public class RedisDistributedLock implements IDistributedLock{
 	private String key; //加锁key
 	private int timeOut; //加锁时长
 	
-	static {
-		createJedis();
-	}
-	
 	public RedisDistributedLock(String key,int timeOut) {
 		this.key=key;
 		this.timeOut=timeOut;
+		if(jedis==null){
+			createJedis();
+		}
 	}
 	
-	private static void createJedis(){
+	private  void createJedis(){
+		try {
 			Properties p=getRedisConfigProperties("redis_sentinel");
 			JedisPoolConfig poolConfig=loadPoolConfig(p);
 			Set<String>sentinels=new HashSet<String>();
@@ -69,6 +69,9 @@ public class RedisDistributedLock implements IDistributedLock{
 				JedisSentinelPool sentinelPool=new JedisSentinelPool(masterName, sentinels, poolConfig);
 				jedis=sentinelPool.getResource();
 			}
+		} catch (Exception e) {
+			throw new RuntimeException("createJedis Exception:"+e);
+		}
 	}
 	
 	/**
@@ -96,7 +99,7 @@ public class RedisDistributedLock implements IDistributedLock{
 		return redisConfig;
 	}
 	
-	private static JedisPoolConfig loadPoolConfig(Properties resources) {
+	private  static JedisPoolConfig loadPoolConfig(Properties resources) {
 		JedisPoolConfig config = new JedisPoolConfig();
 		Map<String, String> prop = new HashMap<String, String>();
 		try {
@@ -139,17 +142,17 @@ public class RedisDistributedLock implements IDistributedLock{
 		long timeSpan=new Date().getTime();
 		//不存在，创建并上锁
 		try {
-			if(this.jedis.setnx(key, String.valueOf(timeSpan))==1){
-				this.jedis.expire(key, timeOut);
+			if(RedisDistributedLock.jedis.setnx(key, String.valueOf(timeSpan))==1){
+				RedisDistributedLock.jedis.expire(key, timeOut);
 				locked=true;
 			}else {
-				String lockExpireTime=this.jedis.get(key);
-				if(this.jedis.ttl(key)>0){
+				String lockExpireTime=RedisDistributedLock.jedis.get(key);
+				if(RedisDistributedLock.jedis.ttl(key)>0){
 					//未过期
 					locked=false;
 				}else {
 					//过期更新锁
-					locked=this.jedis.getSet(key, String.valueOf(timeSpan)).equals(lockExpireTime);
+					locked=RedisDistributedLock.jedis.getSet(key, String.valueOf(timeSpan)).equals(lockExpireTime);
 				}
 			}
 		}catch(Exception e){
@@ -171,7 +174,7 @@ public class RedisDistributedLock implements IDistributedLock{
 	@Override
 	public void unLock() {
 		try {
-			this.jedis.del(this.key);
+			RedisDistributedLock.jedis.del(this.key);
 		} catch (Exception e) {
 			logger.error("unLock Exception:", e);
 			throw new RuntimeException("unLock Exception:",e);
