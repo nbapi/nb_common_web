@@ -5,9 +5,10 @@
  */
 package com.elong.nb.common.distributed;
 
+import groovy.transform.Synchronized;
+
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -15,11 +16,9 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.log4j.Logger;
-
-import com.elong.nb.common.agent.ExchangeRateAgent;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPoolConfig;
@@ -45,16 +44,21 @@ public class RedisDistributedLock implements IDistributedLock{
 	private static Jedis jedis=null;
 	private String key; //加锁key
 	private int timeOut; //加锁时长
+	private LockedOwnerInfo lockedOwnerInfo;
 	
 	public RedisDistributedLock(String key,int timeOut) {
 		this.key=key;
 		this.timeOut=timeOut;
-		if(jedis==null){
-			createJedis();
+		//初始化LockedOwnerInfo
+		this.lockedOwnerInfo=new LockedOwnerInfo();
+		synchronized (RedisDistributedLock.class) {
+			if(jedis==null){
+				createJedis();
+			}
 		}
 	}
 	
-	private  void createJedis(){
+	private static void createJedis(){
 		try {
 			Properties p=getRedisConfigProperties("redis_sentinel");
 			JedisPoolConfig poolConfig=loadPoolConfig(p);
@@ -139,26 +143,12 @@ public class RedisDistributedLock implements IDistributedLock{
 	@Override
 	public boolean lock() {
 		boolean locked=false;
-		long timeSpan=new Date().getTime();
 		//不存在，创建并上锁
 		try {
-			if(RedisDistributedLock.jedis.setnx(key, String.valueOf(timeSpan))==1){
-				RedisDistributedLock.jedis.expire(key, timeOut);
+			if(StringUtils.isNotBlank(RedisDistributedLock.jedis.set(key, LockedOwnerInfo.toString(lockedOwnerInfo), "nx", "ex", timeOut))){
 				locked=true;
-			}else {
-				String lockExpireTime=RedisDistributedLock.jedis.get(key);
-				if(RedisDistributedLock.jedis.ttl(key)>0){
-					//未过期
-					locked=false;
-				}else {
-					//过期更新锁
-					locked=RedisDistributedLock.jedis.getSet(key, String.valueOf(timeSpan)).equals(lockExpireTime);
-				}
 			}
 		}catch(Exception e){
-			//logger.error("lock Exception:", e);
-			//redis异常，流程照常向下走
-			//locked=true;
 			logger.error("lock Exception:", e);
 			throw new RuntimeException("lock Exception:",e);
 		}
@@ -172,12 +162,19 @@ public class RedisDistributedLock implements IDistributedLock{
 	 * @see com.elong.nb.common.distributed.IDistributedLock#unLock()    
 	 */
 	@Override
-	public void unLock() {
+	public boolean unLock() {
+		boolean unLocked=false;
 		try {
-			RedisDistributedLock.jedis.del(this.key);
+			LockedOwnerInfo redisLockedOwnerInfo=LockedOwnerInfo.fromString(RedisDistributedLock.jedis.get(key));
+			if(redisLockedOwnerInfo!=null&&LockedOwnerInfo.isSameOwner(redisLockedOwnerInfo)){//且是同一个客户端才能删除锁
+				unLocked=RedisDistributedLock.jedis.del(this.key)==1;
+			}else if (redisLockedOwnerInfo==null) {
+				unLocked=true;
+			}
 		} catch (Exception e) {
 			logger.error("unLock Exception:", e);
 			throw new RuntimeException("unLock Exception:",e);
 		}
+		return unLocked;
 	}
 }

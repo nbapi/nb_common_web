@@ -22,5 +22,5 @@ package com.elong.nb.common.distributed;
  */
 public interface IDistributedLock {
 	public  boolean lock();
-	public void unLock();
+	public boolean unLock();
 }
