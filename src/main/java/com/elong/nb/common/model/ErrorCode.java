@@ -282,4 +282,12 @@ public interface ErrorCode {
 	public static final String Unknown = "H099999999|未知错误";
 	public static final String Parameter_SerializationError = "H000996|请求参数错误,请检查";
 	
+	//系统异常 500开头
+	public static final String System_Payment_GetToken_Error="500_100|Payment_GetToken异常,{0}";
+	public static final String System_Nbapi_Order_GetSimple_Error="500_101|Nbapi_Order_GetSimple异常,{0}";
+	public static final String System_Pa_Pay_Error="500_102|Pa支付接口异常,{0}";
+	public static final String System_CC_Pay_Error="500_103|CC支付接口异常,{0}";
+	public static final String System_CC_Valid_Error="500_104|CC验证接口异常,{0}";
+	public static final String System_Pa_Check_Balance_Error="500_105|Pa检查余额接口异常,{0}";
+	public static final String System_Common_Error="500_888|系统异常";
 }

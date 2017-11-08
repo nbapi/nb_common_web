@@ -172,6 +172,11 @@
 			<artifactId>spring-mvc-enhance</artifactId>
 			<version>1.10.3</version>
 		</dependency>
+		<dependency>
+  <groupId>com.elong</groupId>
+  <artifactId>JMSG-Client</artifactId>
+  <version>1.11.1</version>
+</dependency>
 	</dependencies>
 
 </project>
