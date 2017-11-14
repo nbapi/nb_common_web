@@ -66,8 +66,8 @@ public class ExchangeRateAgent {
 			}
 
 		}, delay, delay, TimeUnit.MINUTES);
-		if (!checkAndUpdate())
-			throw new RuntimeException("Exchangerate cache init failed!");
+//		if (!checkAndUpdate())
+//			throw new RuntimeException("Exchangerate cache init failed!");
 	}
 
 	public static Double getExchangeRate(String currencyCodeStr) {
