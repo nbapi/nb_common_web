@@ -45,7 +45,6 @@ public class RedisDistributedLock implements IDistributedLock{
 	private String key; //加锁key
 	private int timeOut; //加锁时长
 	private LockedOwnerInfo lockedOwnerInfo;
-	private Jedis jedis;
 	
 	public RedisDistributedLock(String key,int timeOut) {
 		this.key=key;
@@ -55,10 +54,6 @@ public class RedisDistributedLock implements IDistributedLock{
 		synchronized (RedisDistributedLock.class) {
 			if(pool==null){
 				createJedisPool();
-			}
-			if(pool!=null){
-				this.jedis=pool.getResource();
-				logger.info("this jedis:"+this.jedis);
 			}
 		}
 	}
@@ -145,18 +140,23 @@ public class RedisDistributedLock implements IDistributedLock{
 	 *
 	 * @see com.elong.nb.common.distributed.IDistributedLock#lock()    
 	 */
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean lock() {
 		boolean locked=false;
 		//不存在，创建并上锁
+		Jedis jedis=null;
 		try {
-			if(StringUtils.isNotBlank(this.jedis.set(key, LockedOwnerInfo.toString(lockedOwnerInfo), "nx", "ex", timeOut))){
+			jedis=pool.getResource();
+			if(StringUtils.isNotBlank(jedis.set(key, LockedOwnerInfo.toString(lockedOwnerInfo), "nx", "ex", timeOut))){
 				locked=true;
 			}
 			logger.info("lock key:"+key+",locked:"+locked);
 		}catch(Exception e){
 			logger.error("lock Exception:", e);
 			throw new RuntimeException("lock Exception:",e);
+		}finally{//释放连接
+			pool.returnResource(jedis);
 		}
 		return locked;
 	}
@@ -167,13 +167,16 @@ public class RedisDistributedLock implements IDistributedLock{
 	 *
 	 * @see com.elong.nb.common.distributed.IDistributedLock#unLock()    
 	 */
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean unLock() {
 		boolean unLocked=false;
+		Jedis jedis=null;
 		try {
-			LockedOwnerInfo redisLockedOwnerInfo=LockedOwnerInfo.fromString(this.jedis.get(key));
+			jedis=pool.getResource();
+			LockedOwnerInfo redisLockedOwnerInfo=LockedOwnerInfo.fromString(jedis.get(key));
 			if(redisLockedOwnerInfo!=null&&LockedOwnerInfo.isSameOwner(redisLockedOwnerInfo)){//且是同一个客户端才能删除锁
-				unLocked=this.jedis.del(this.key)==1;
+				unLocked=jedis.del(this.key)==1;
 			}else if (redisLockedOwnerInfo==null) {
 				unLocked=true;
 			}
@@ -181,6 +184,8 @@ public class RedisDistributedLock implements IDistributedLock{
 		} catch (Exception e) {
 			logger.error("unLock Exception:", e);
 			throw new RuntimeException("unLock Exception:",e);
+		}finally{
+			pool.returnResource(jedis);
 		}
 		return unLocked;
 	}
