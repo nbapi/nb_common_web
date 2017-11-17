@@ -58,6 +58,7 @@ public class RedisDistributedLock implements IDistributedLock{
 			}
 			if(pool!=null){
 				this.jedis=pool.getResource();
+				logger.info("this jedis:"+this.jedis);
 			}
 		}
 	}
@@ -152,7 +153,7 @@ public class RedisDistributedLock implements IDistributedLock{
 			if(StringUtils.isNotBlank(this.jedis.set(key, LockedOwnerInfo.toString(lockedOwnerInfo), "nx", "ex", timeOut))){
 				locked=true;
 			}
-			logger.info("lock key:"+key);
+			logger.info("lock key:"+key+",locked:"+locked);
 		}catch(Exception e){
 			logger.error("lock Exception:", e);
 			throw new RuntimeException("lock Exception:",e);
@@ -176,6 +177,7 @@ public class RedisDistributedLock implements IDistributedLock{
 			}else if (redisLockedOwnerInfo==null) {
 				unLocked=true;
 			}
+			logger.info("unLock key:"+key+",unLocked:"+unLocked);
 		} catch (Exception e) {
 			logger.error("unLock Exception:", e);
 			throw new RuntimeException("unLock Exception:",e);
