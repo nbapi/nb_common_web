@@ -41,10 +41,11 @@ import redis.clients.jedis.JedisSentinelPool;
 public class RedisDistributedLock implements IDistributedLock{
 	private static final Log logger = LogFactory.getLog(RedisDistributedLock.class);
 	
-	private static Jedis jedis=null;
+	private static JedisSentinelPool pool=null;
 	private String key; //加锁key
 	private int timeOut; //加锁时长
 	private LockedOwnerInfo lockedOwnerInfo;
+	private Jedis jedis;
 	
 	public RedisDistributedLock(String key,int timeOut) {
 		this.key=key;
@@ -52,13 +53,16 @@ public class RedisDistributedLock implements IDistributedLock{
 		//初始化LockedOwnerInfo
 		this.lockedOwnerInfo=new LockedOwnerInfo();
 		synchronized (RedisDistributedLock.class) {
-			if(jedis==null){
-				createJedis();
+			if(pool==null){
+				createJedisPool();
+			}
+			if(pool!=null){
+				this.jedis=pool.getResource();
 			}
 		}
 	}
 	
-	private static void createJedis(){
+	private static void createJedisPool(){
 		try {
 			Properties p=getRedisConfigProperties("redis_sentinel");
 			JedisPoolConfig poolConfig=loadPoolConfig(p);
@@ -70,8 +74,8 @@ public class RedisDistributedLock implements IDistributedLock{
 				for (String ip : ips) {
 					sentinels.add(ip);
 				}
-				JedisSentinelPool sentinelPool=new JedisSentinelPool(masterName, sentinels, poolConfig);
-				jedis=sentinelPool.getResource();
+				pool=new JedisSentinelPool(masterName, sentinels, poolConfig);
+				//jedis=sentinelPool.getResource();
 			}
 		} catch (Exception e) {
 			throw new RuntimeException("createJedis Exception:"+e);
@@ -145,9 +149,10 @@ public class RedisDistributedLock implements IDistributedLock{
 		boolean locked=false;
 		//不存在，创建并上锁
 		try {
-			if(StringUtils.isNotBlank(RedisDistributedLock.jedis.set(key, LockedOwnerInfo.toString(lockedOwnerInfo), "nx", "ex", timeOut))){
+			if(StringUtils.isNotBlank(this.jedis.set(key, LockedOwnerInfo.toString(lockedOwnerInfo), "nx", "ex", timeOut))){
 				locked=true;
 			}
+			logger.info("lock key:"+key);
 		}catch(Exception e){
 			logger.error("lock Exception:", e);
 			throw new RuntimeException("lock Exception:",e);
@@ -165,9 +170,9 @@ public class RedisDistributedLock implements IDistributedLock{
 	public boolean unLock() {
 		boolean unLocked=false;
 		try {
-			LockedOwnerInfo redisLockedOwnerInfo=LockedOwnerInfo.fromString(RedisDistributedLock.jedis.get(key));
+			LockedOwnerInfo redisLockedOwnerInfo=LockedOwnerInfo.fromString(this.jedis.get(key));
 			if(redisLockedOwnerInfo!=null&&LockedOwnerInfo.isSameOwner(redisLockedOwnerInfo)){//且是同一个客户端才能删除锁
-				unLocked=RedisDistributedLock.jedis.del(this.key)==1;
+				unLocked=this.jedis.del(this.key)==1;
 			}else if (redisLockedOwnerInfo==null) {
 				unLocked=true;
 			}
