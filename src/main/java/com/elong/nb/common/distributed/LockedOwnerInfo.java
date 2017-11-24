@@ -5,6 +5,9 @@
  */
 package com.elong.nb.common.distributed;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.alibaba.fastjson.JSON;
 import com.elong.nb.common.util.LocalHost;
 
@@ -23,6 +26,7 @@ import com.elong.nb.common.util.LocalHost;
  * @since		JDK1.7
  */
 public class LockedOwnerInfo {
+	private static final Log logger = LogFactory.getLog(LockedOwnerInfo.class);
 	private final static String mac=LocalHost.getMACAddress();;
 	private final static long jvmPID=LocalHost.getJVMPid();
 	private long threadID;
@@ -51,6 +55,7 @@ public class LockedOwnerInfo {
 	
 	public static LockedOwnerInfo fromString(String info){
 		try {
+			logger.info("lockedOwnerInfo:"+info);
 			return JSON.parseObject(info, LockedOwnerInfo.class);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
