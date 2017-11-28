@@ -47,8 +47,6 @@ public class ProxyAccount {
 	private boolean EnabledVirtualCardForGuarantee;
 	// / 是否可以变价
 	private boolean EnabledSpecialRate;
-	// / 是否享受即时确认
-	private boolean EnabledInstantConfirm;
 	// / 是否有开发票权限
 	private boolean EnabledInvoiceRole;
 	// / 是否开通了艺龙备注权限。用于获取订单的时候是否返回艺龙备注
@@ -320,14 +318,6 @@ public class ProxyAccount {
 
 	public void setEnabledSpecialRate(Boolean enabledSpecialRate) {
 		EnabledSpecialRate = enabledSpecialRate;
-	}
-
-	public Boolean getEnabledInstantConfirm() {
-		return EnabledInstantConfirm;
-	}
-
-	public void setEnabledInstantConfirm(Boolean enabledInstantConfirm) {
-		EnabledInstantConfirm = enabledInstantConfirm;
 	}
 
 	public Boolean getEnabledInvoiceRole() {

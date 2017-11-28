@@ -59,15 +59,13 @@ public class ExchangeRateAgent {
 			public void run() {
 				boolean result = checkAndUpdate();
 				if (result) {
-					logger.info("Update exchangerate cache success!" + new Date());
+					logger.info("Update exchangerate cache successfully!" + new Date());
 				} else {
 					logger.error("Update exchangerate cache failed!" + new Date());
 				}
 			}
 
 		}, delay, delay, TimeUnit.MINUTES);
-		if (!checkAndUpdate())
-			throw new RuntimeException("Exchangerate cache init failed!");
 	}
 
 	public static Double getExchangeRate(String currencyCodeStr) {
@@ -99,7 +97,7 @@ public class ExchangeRateAgent {
 			if (redisDataCount == 0)
 				return false;
 			return exchangeRateCache.update(currencyRateMap);
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			logger.error(e.getMessage(), e);
 			return false;
 		}
