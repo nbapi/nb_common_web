@@ -23,6 +23,7 @@ import com.elong.nb.common.model.EnumCurrencyCode;
 import com.elong.nb.common.model.ExchangeRate;
 import com.elong.nb.common.model.RedisKeyConst;
 import com.elong.nb.common.util.CommonsUtil;
+import com.elong.nb.common.util.DateUtils;
 
 /**
  * 汇率数据访问代理
@@ -54,18 +55,25 @@ public class ExchangeRateAgent {
 
 		ScheduledExecutorService service = Executors.newScheduledThreadPool(1);
 		service.scheduleWithFixedDelay(new Runnable() {
-
 			@Override
 			public void run() {
 				boolean result = checkAndUpdate();
 				if (result) {
-					logger.info("Update exchangerate cache successfully!" + new Date());
+					logger.info("scheduleWithFixedDelay Update exchangerate cache successfully,date = "
+							+ DateUtils.convertDate(new Date(), "yyyy-MM-dd HH:mm:ss"));
 				} else {
-					logger.error("Update exchangerate cache failed!" + new Date());
+					logger.error("scheduleWithFixedDelay Update exchangerate cache failed,date = "
+							+ DateUtils.convertDate(new Date(), "yyyy-MM-dd HH:mm:ss"));
 				}
 			}
 
 		}, delay, delay, TimeUnit.MINUTES);
+		boolean result = checkAndUpdate();
+		if (result) {
+			logger.info("first Update exchangerate cache successfully,date = " + DateUtils.convertDate(new Date(), "yyyy-MM-dd HH:mm:ss"));
+		} else {
+			logger.error("first Update exchangerate cache failed,date = " + DateUtils.convertDate(new Date(), "yyyy-MM-dd HH:mm:ss"));
+		}
 	}
 
 	public static Double getExchangeRate(String currencyCodeStr) {
