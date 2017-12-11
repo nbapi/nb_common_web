@@ -15,7 +15,7 @@ public class LogUtils {
 	 */
 	public static long getStartTime(){
 		long startTime = 0;
-		if(RandomJudgeUtil.judge(90)){
+		if(RandomJudgeUtil.judge(1)){
 			startTime = System.currentTimeMillis();
 		}
 		return startTime;
