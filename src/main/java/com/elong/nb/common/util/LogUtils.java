@@ -2,6 +2,8 @@ package com.elong.nb.common.util;
 
 import java.util.UUID;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.elong.nb.common.checklist.EnumNBLogType;
 import com.elong.nb.common.checklist.NBActionLogHelper;
 
@@ -28,8 +30,22 @@ public class LogUtils {
 	 * @param e
 	 */
 	public static void writeLog(boolean success, String methodName, String className, long startTime, Exception e){
+		writeLog(null, success, methodName, className, startTime, e);
+	}
+	
+	/**
+	 * @param traceId
+	 * @param success
+	 * @param methodName
+	 * @param className
+	 * @param startTime
+	 * @param e
+	 */
+	public static void writeLog(String traceId, boolean success, String methodName, String className, long startTime, Exception e){
 		if(startTime > 0){
-			String traceId = UUID.randomUUID().toString();
+			if(StringUtils.isBlank(traceId)){
+				traceId = UUID.randomUUID().toString();
+			}
 			if(success){
 				NBActionLogHelper.businessLog(traceId, true, methodName, className, null, (System.currentTimeMillis() - startTime), 0, null, null,
 						null, null, EnumNBLogType.DAO);
@@ -51,8 +67,23 @@ public class LogUtils {
 	 * @param e
 	 */
 	public static void writeLog(boolean success, String methodName, String className, String param, long startTime, Exception e){
+		writeLog(null, success, methodName, className, param, startTime, e);
+	}
+	
+	/**
+	 * @param traceId
+	 * @param success
+	 * @param methodName
+	 * @param className
+	 * @param param
+	 * @param startTime
+	 * @param e
+	 */
+	public static void writeLog(String traceId, boolean success, String methodName, String className, String param, long startTime, Exception e){
 		if(startTime > 0){
-			String traceId = UUID.randomUUID().toString();
+			if(StringUtils.isBlank(traceId)){
+				traceId = UUID.randomUUID().toString();
+			}
 			if(success){
 				NBActionLogHelper.businessLog(traceId, true, methodName, className, null, (System.currentTimeMillis() - startTime), 0, null, null,
 						param, null, EnumNBLogType.DAO);
