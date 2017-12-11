@@ -1,5 +1,7 @@
 package com.elong.nb.common.util;
 
+import java.util.UUID;
+
 import com.elong.nb.common.checklist.EnumNBLogType;
 import com.elong.nb.common.checklist.NBActionLogHelper;
 
@@ -11,7 +13,7 @@ public class LogUtils {
 	 */
 	public static long getStartTime(){
 		long startTime = 0;
-		if(RandomJudgeUtil.judge(1)){
+		if(RandomJudgeUtil.judge(90)){
 			startTime = System.currentTimeMillis();
 		}
 		return startTime;
@@ -27,11 +29,12 @@ public class LogUtils {
 	 */
 	public static void writeLog(boolean success, String methodName, String className, long startTime, Exception e){
 		if(startTime > 0){
+			String traceId = UUID.randomUUID().toString();
 			if(success){
-				NBActionLogHelper.businessLog(null, true, methodName, className, null, (System.currentTimeMillis() - startTime), 0, null, null,
+				NBActionLogHelper.businessLog(traceId, true, methodName, className, null, (System.currentTimeMillis() - startTime), 0, null, null,
 						null, null, EnumNBLogType.DAO);
 			}else{
-				NBActionLogHelper.businessLog(null, false, methodName,className, e, (System.currentTimeMillis() - startTime), -1, e==null? null:e.getMessage(), null,
+				NBActionLogHelper.businessLog(traceId, false, methodName,className, e, (System.currentTimeMillis() - startTime), -1, e==null? null:e.getMessage(), null,
 						null, null, EnumNBLogType.DAO);
 			}
 		}
@@ -49,11 +52,12 @@ public class LogUtils {
 	 */
 	public static void writeLog(boolean success, String methodName, String className, String param, long startTime, Exception e){
 		if(startTime > 0){
+			String traceId = UUID.randomUUID().toString();
 			if(success){
-				NBActionLogHelper.businessLog(null, true, methodName, className, null, (System.currentTimeMillis() - startTime), 0, null, null,
+				NBActionLogHelper.businessLog(traceId, true, methodName, className, null, (System.currentTimeMillis() - startTime), 0, null, null,
 						param, null, EnumNBLogType.DAO);
 			}else{
-				NBActionLogHelper.businessLog(null, false, methodName,className, e, (System.currentTimeMillis() - startTime), -1, e==null? null:e.getMessage(), null,
+				NBActionLogHelper.businessLog(traceId, false, methodName,className, e, (System.currentTimeMillis() - startTime), -1, e==null? null:e.getMessage(), null,
 						param, null, EnumNBLogType.DAO);
 			}
 		}
