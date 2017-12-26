@@ -238,6 +238,8 @@ public interface ErrorCode {
 	public static final String ORDER_TotalPriceMoreThanCost="H001137-1|TotalPrice不能高于要求总底价的{0}%";
 	
 	public static final String Order_HourRoomValidate="H001138|小时房最晚到店时间不能晚于或等于{0}";
+	
+	public static final String Order_CancelPenayNotEnough="H001139|取消接口罚金不足,应为:{0}";
 	// endregion
 
 	// region 搜索 H002001
