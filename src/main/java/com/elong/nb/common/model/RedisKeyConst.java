@@ -90,8 +90,11 @@ public interface RedisKeyConst {
 	public static final String KEY_HOTEL_HOTELROOM = "h:%s:hotelroom:%s";
 
 	public static final String KEY_HOTEL_HOTELIMAGES = "h:%s:hotelimages";
+	public static final String KEY_HOTEL_IMAGEJSOM = "hjson:%s";
 
 	public static final String KEY_HOTEL_HOTELThumbNailUrlImage = "h:%s:hotelthumbnailurlimage";
+	
+	public static final String KEY_HOTEL_Images = "himg:%s";
 
 	public static final String KEY_HOTEL_RoomThumbNailUrlImage = "h:%s:room%s:thumbnailurlimage";
 
