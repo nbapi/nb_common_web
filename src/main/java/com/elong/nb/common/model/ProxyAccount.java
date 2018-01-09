@@ -83,6 +83,8 @@ public class ProxyAccount {
 	
 	private String SecondSecretKey;
 	
+	private boolean UniqueSearchByOrderFrom;//主要用于OrderList接口，通过OrderFrom做唯一检索，可以检测到其他渠道产生的订单。
+	
 	// / 获取代理结算价
 	// / <param name="costPrice">酒店底价</param>
 	// / <param name="memberPrice">会员卖价</param>
@@ -522,6 +524,10 @@ public class ProxyAccount {
 
 	public void setSecondSecretKey(String secondSecretKey) {
 		SecondSecretKey = secondSecretKey;
+	}
+
+	public boolean isUniqueSearchByOrderFrom() {
+		return UniqueSearchByOrderFrom;
 	}
 
 }
