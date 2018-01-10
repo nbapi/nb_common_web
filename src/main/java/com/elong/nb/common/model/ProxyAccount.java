@@ -29,8 +29,6 @@ public class ProxyAccount {
 	private EnumBookingChannel BookingChannel;// 预订渠道
 	private EnumOrderType SearchOrderType;// 订单搜索方式
 	private EnumOrderContactType OrderContactType;// 订单处理联系方式，0---不处理，1---联系客人，2---联系代理
-	// / 是否过滤SEM关闭的酒店
-	private boolean IsFilterSEMHotel;
 	// / 是否开通了预付产品获取权限
 	private boolean EnabledPrepayProducts;
 	// / 是否开通了预付结算价权限
@@ -45,18 +43,12 @@ public class ProxyAccount {
 	private boolean EnabledVirtualCardForPrepay;
 	// / 是否开通了担保虚拟卡
 	private boolean EnabledVirtualCardForGuarantee;
-	// / 是否可以变价
-	private boolean EnabledSpecialRate;
 	// / 是否有开发票权限
 	private boolean EnabledInvoiceRole;
 	// / 是否开通了艺龙备注权限。用于获取订单的时候是否返回艺龙备注
 	private boolean EnabledElongNoteReadRole;
 	// / 是否开通了搜索的前台现付的Coupon读取权限
 	private boolean EnabledCouponReadRole;
-	// / 是否开通了Coupon读取权限，成单的时候可以记录Coupon
-	private boolean EnabledCouponRole;
-	// / 仅使用哪些供应商的库存，用于库存全量接口过滤
-	private String Supplier;
 	// / 创建订单是否有权生成强制担保订单
 	private boolean EnableForcedGuaranteeOrder;	//！！！成单在读，可能是expedia在传
 	// / 是否忽略订单内容（入住日期、产品、客人名字等）的疑似重单校验
@@ -264,14 +256,6 @@ public class ProxyAccount {
 		OrderContactType = orderContactType;
 	}
 
-	public Boolean getIsFilterSEMHotel() {
-		return IsFilterSEMHotel;
-	}
-
-	public void setIsFilterSEMHotel(Boolean isFilterSEMHotel) {
-		IsFilterSEMHotel = isFilterSEMHotel;
-	}
-
 	public Boolean getEnabledPrepayProducts() {
 		return EnabledPrepayProducts;
 	}
@@ -312,14 +296,6 @@ public class ProxyAccount {
 		EnabledVirtualCardForGuarantee = enabledVirtualCardForGuarantee;
 	}
 
-	public Boolean getEnabledSpecialRate() {
-		return EnabledSpecialRate;
-	}
-
-	public void setEnabledSpecialRate(Boolean enabledSpecialRate) {
-		EnabledSpecialRate = enabledSpecialRate;
-	}
-
 	public Boolean getEnabledInvoiceRole() {
 		return EnabledInvoiceRole;
 	}
@@ -342,22 +318,6 @@ public class ProxyAccount {
 
 	public void setEnabledCouponReadRole(Boolean enabledCouponReadRole) {
 		EnabledCouponReadRole = enabledCouponReadRole;
-	}
-
-	public Boolean getEnabledCouponRole() {
-		return EnabledCouponRole;
-	}
-
-	public void setEnabledCouponRole(Boolean enabledCouponRole) {
-		EnabledCouponRole = enabledCouponRole;
-	}
-
-	public String getSupplier() {
-		return Supplier;
-	}
-
-	public void setSupplier(String supplier) {
-		Supplier = supplier;
 	}
 
 	public Boolean getEnableForcedGuaranteeOrder() {
