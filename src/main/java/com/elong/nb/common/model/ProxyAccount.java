@@ -75,8 +75,6 @@ public class ProxyAccount {
 	
 	private String SecondSecretKey;
 	
-	private boolean UniqueSearchByOrderFrom;//主要用于OrderList接口，通过OrderFrom做唯一检索，可以检测到其他渠道产生的订单。
-	
 	public String getUserName() {
 		return UserName;
 	}
@@ -391,10 +389,6 @@ public class ProxyAccount {
 
 	public void setSecondSecretKey(String secondSecretKey) {
 		SecondSecretKey = secondSecretKey;
-	}
-
-	public boolean isUniqueSearchByOrderFrom() {
-		return UniqueSearchByOrderFrom;
 	}
 
 }
