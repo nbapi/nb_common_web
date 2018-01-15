@@ -296,5 +296,6 @@ public interface ErrorCode {
 	public static final String System_Pa_Check_Balance_Error="500_1104|Pa检查余额接口异常,{0}";
 	public static final String System_Check_Payable_Error="500_1105|检查订单是否可支付接口异常,{0}";
 	public static final String System_Incr_Order_Error="500_1106|订单增量推送接口异常,{0}";
+	public static final String System_Get_Cashdesk_Error="500_1107|获取收银台接口异常,{0}";
 	public static final String System_Common_Error="500_888|系统异常";
 }
