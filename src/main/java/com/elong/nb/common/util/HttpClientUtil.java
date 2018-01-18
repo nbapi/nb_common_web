@@ -12,12 +12,17 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.CodingErrorAction;
-import java.text.SimpleDateFormat;
+import java.security.KeyManagementException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.net.ssl.SSLContext;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -40,7 +45,11 @@ import org.apache.http.config.Registry;
 import org.apache.http.config.RegistryBuilder;
 import org.apache.http.config.SocketConfig;
 import org.apache.http.conn.socket.ConnectionSocketFactory;
+import org.apache.http.conn.socket.LayeredConnectionSocketFactory;
 import org.apache.http.conn.socket.PlainConnectionSocketFactory;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.SSLContexts;
+import org.apache.http.conn.ssl.TrustStrategy;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -48,7 +57,6 @@ import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
-import com.alibaba.fastjson.JSON;
 import com.elong.nb.common.model.NbapiHttpRequest;
 
 /**
@@ -190,8 +198,34 @@ public class HttpClientUtil {
 	 * @return
 	 */
 	private static CloseableHttpClient generateHttpClient() {
-		Registry<ConnectionSocketFactory> socketFactory = RegistryBuilder.<ConnectionSocketFactory> create()
-				.register("http", PlainConnectionSocketFactory.INSTANCE).build();
+		RegistryBuilder<ConnectionSocketFactory> registryBuilder = RegistryBuilder.<ConnectionSocketFactory> create();
+		registryBuilder.register("http", PlainConnectionSocketFactory.INSTANCE).build();
+		KeyStore trustStore = null;
+		try {
+			trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+		} catch (KeyStoreException e) {
+			logger.error("register https for KeyStore error = " + e.getMessage(), e);
+		}
+		TrustStrategy anyTrustStrategy = new TrustStrategy() {
+			@Override
+			public boolean isTrusted(X509Certificate[] x509Certificates, String s) throws CertificateException {
+				return true;
+			}
+		};
+		SSLContext sslContext = null;
+		try {
+			sslContext = SSLContexts.custom().useTLS().loadTrustMaterial(trustStore, anyTrustStrategy).build();
+		} catch (KeyManagementException | NoSuchAlgorithmException | KeyStoreException e) {
+			logger.error("register https for SSLContext error = " + e.getMessage(), e);
+		}
+		try {
+			LayeredConnectionSocketFactory sslSF = new SSLConnectionSocketFactory(sslContext,
+					SSLConnectionSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+			registryBuilder.register("https", sslSF);
+		} catch (Exception e) {
+			logger.error("register https for LayeredConnectionSocketFactory error = " + e.getMessage(), e);
+		}
+		Registry<ConnectionSocketFactory> socketFactory = registryBuilder.build();
 		PoolingHttpClientConnectionManager connManager = new PoolingHttpClientConnectionManager(socketFactory);
 		SocketConfig socketConfig = SocketConfig.custom().setTcpNoDelay(true).setSoKeepAlive(true).build();
 		connManager.setDefaultSocketConfig(socketConfig);
@@ -266,18 +300,9 @@ public class HttpClientUtil {
 
 	public static void main(String[] args) {
 		NbapiHttpRequest nbapiHttpRequest = new NbapiHttpRequest();
-		String reqUrl = "http://jhorderapinb.vip.elong.com:8314/data/getBriefOrdersByTimestamp";
+		String reqUrl = "https://www.sohu.com";
 		nbapiHttpRequest.setUrl(reqUrl);
-		nbapiHttpRequest.setContentType("application/json");
-
-		Date now = new Date();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-		String startTimestamp = sdf.format(now);
-		Map<String, Object> reqParams = new HashMap<String, Object>();
-		reqParams.put("startTimestamp", startTimestamp);
-		reqParams.put("endTimestamp", startTimestamp);
-		nbapiHttpRequest.setParamStr(JSON.toJSONString(reqParams));
-		String responseBody = HttpClientUtil.httpJsonPost(nbapiHttpRequest);
+		String responseBody = HttpClientUtil.httpGet(nbapiHttpRequest);
 		System.out.println(responseBody);
 	}
 }
