@@ -25,8 +25,6 @@ import java.util.Map;
 import javax.net.ssl.SSLContext;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.http.Consts;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -56,6 +54,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.apache.log4j.Logger;
 
 import com.elong.nb.common.model.NbapiHttpRequest;
 
@@ -75,7 +74,7 @@ import com.elong.nb.common.model.NbapiHttpRequest;
  */
 public class HttpClientUtil {
 
-	private static final Log logger = LogFactory.getLog(HttpClientUtil.class);
+	private static final Logger logger = Logger.getLogger("httpClientLogLogger");
 
 	private static final RequestConfig defaultRequestConfig = generateDefaultRequestConfig();
 
